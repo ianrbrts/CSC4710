@@ -20,7 +20,8 @@
 			else {
 				alert ("Password match!");
 			return true; 
-				}
+				} 
+				
 				
 		}
 	</script>

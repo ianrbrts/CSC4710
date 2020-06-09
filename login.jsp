@@ -4,7 +4,7 @@
 	<script>
 		function CheckPassword(form)
 		{
-			password1 = form.password.value;
+			password1 = form.password1.value;
 			password2 = form.password2.value;
 			
 			if (password1 == '')
@@ -21,6 +21,8 @@
 				alert ("Password match!");
 			return true; 
 				} 
+			
+			//Hi Ian
 				
 				
 		}

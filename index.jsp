@@ -51,7 +51,7 @@
       <br>
 
     <form method="post" action="login.jsp">
-        <p>Already a member?</p>
+        <p><u>Already a member?</u></p>
         <input type="submit" id="submitbtn" value="Log in">
     </form>
       

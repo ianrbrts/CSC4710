@@ -50,6 +50,13 @@ public class dbconnection{
         }
     }
 	
+	//Function to drop all existing tables
+	private void dropTables() throws SQLException {
+		Statement createTable = _dbConnection.createStatement();
+		
+		createTable.execute("DROP TABLE IF EXISTS users");
+	};
+		
 	Statement createStatement() throws SQLException {
         return _dbConnection.createStatement();
     }
@@ -64,7 +71,8 @@ public class dbconnection{
         private void createUsersTable() throws SQLException{
         	Statement createTable = _dbConnection.createStatement();
         	
-        	
+        
+        		
         	createTable.execute("CREATE TABLE IF NOT EXISTS users(" +
         			"email VARCHAR(255) NOT NULL," +
         			"password VARCHAR(100) NOT NULL,"+
@@ -74,7 +82,21 @@ public class dbconnection{
         			"PRIMARY KEY (email)"+
         			")"
 			);
-    	}
+        	
+        	//Re-populate table
+        	createTable.executeUpdate("DELETE FROM users");
+        	createTable.executeUpdate("Existing Users" +
+        			"('Johncon97@gmail.com', 'temppass1', 'John', 'Con', '20')," +
+        			"('TedJ2@gmail.com', 'temppass2', 'Ted', 'Jaco', '23')," +
+        			"('JackLi@gmail.com', 'temppass3', 'Jack', 'Li', '32')," +
+        			"('JerrysTe@gmail.com', 'temppass4', 'Jerry', 'Smith', '21')," +
+        			"('BethS@gmail.com', 'temppass5', 'Beth', 'Smith', '20')," +
+        			"('RickJ@gmail.com', 'temppass6', 'Rick', 'James', '42')," +
+        			"('ThomasTheo@gmail.com', 'temppass7', 'Thomas', 'Theodore', '20')," +
+        			"('SallyT@gmail.com', 'temppass8', 'Sally', 'Tibet', '54')," +
+        			"('Jessichar@gmail.com', 'temppass9', 'Jessica', 'Harland', '20')," +
+        			"('Tylerww@gmail.com', 'temppass10', 'Tyler', 'Walia', '52')"
+    	);
 	}
 
 }

@@ -28,7 +28,8 @@
 		}
 	</script>
 	<meta"charset=UTF-8">
-	<title>New title</title>
+	<title>Log in</title>
+	<link rel="stylesheet" href="index.css">
 </head>
 
 <body>
@@ -39,9 +40,9 @@
 		<label for="username">Username:</label>
 		<input type="email" id="username" name="username"><br><br>
 		<label for="password">Password:</label>
-		<input type="text" id="password1" name="password1"><br>
+		<input type="text" id="password1" name="password1"><br><br>
 		<label for="password">Confirm Password:</label>
-		<input type="text" id="password2" name="password2"><br>
+		<input type="text" id="password2" name="password2"><br><br>
 		
 		<input type="submit" value="Submit">
 	  </form>

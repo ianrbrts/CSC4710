@@ -1,0 +1,17 @@
+label{
+    display:inline-block;
+    width:100px;
+    margin-right:30px;
+    text-align:left;
+}
+    
+input{
+    width:150px;
+    margin:0px auto;
+}
+
+#submitbtn{
+    display:inline-block;
+    width:100px;
+}
+    

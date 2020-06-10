@@ -7,16 +7,24 @@
 			password1 = form.password1.value;
 			password2 = form.password2.value;
 			
-			if (password1 != password2){
-				alert ("Please make sure passwords match.");
-                return false;
-            }   
+			if (password1 == '')
+				alert ("Please enter a password");
+			
+			else if (password2 == '')
+				alert ("Please enter a password");
+			else if (password1 != password2)
+				{
+					alert ("Please make sure that the passwords match");
+					return false;
+				}
 			else {
-			    return true; 
-            } 
-						
+				alert ("Password match!");
+			return true; 
+				} 
 				
 		}
+		
+	
 	</script>
 	<meta"charset=UTF-8">
     <title>Sign-up Page</title>
@@ -43,8 +51,8 @@
         <label for="lname">Last Name:</label>
         <input type="text" id="lname" name="lname"><br><br>
 
-        <label for="fname">Age:</label>
-        <input type="text" id="age" name="age"><br><br>
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age"><br><br>
         
 		<input type="submit" id="submitbtn" value="Submit">
       </form>

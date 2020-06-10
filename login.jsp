@@ -21,8 +21,7 @@
 				alert ("Password match!");
 			return true; 
 				} 
-			
-			//Hi Ian
+		
 				
 				
 		}

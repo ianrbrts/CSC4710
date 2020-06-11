@@ -86,15 +86,68 @@ public class PeopleDAO {
     public boolean login(People user) throws SQLException{
     	connect_func();
     	
-    	String sql = "SELECT email FROM users WHERE email = ? AND password = ?";
+    	String sql = "SELECT email FROM users WHERE email = ? AND password = ?)";
+    				
+    				
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
     	preparedStatement.setString(1, user.name);
     	preparedStatement.setString(2, user.password);
     	
+    	System.out.println("I'm here");
     	
-    	boolean userFound = false;
-    	preparedStatement.close();
-    	return userFound;
+    	if(sql.contains(user.name)) {
+    		if(sql.contains(user.password)) {
+    			preparedStatement.close();
+    			return true;
+    		}
+    		else {
+    			preparedStatement.close();
+    			return false;
+    		}
+    	}
+    	else {
+    		preparedStatement.close();
+    		return false;
+    	}
+    	
+    	
+    	
+    	
+    }
+    
+    public boolean dropTables() throws SQLException{
+    	connect_func();
+    	
+    	String sql = "DROP TABLE users";
+       	String sql2 = "INSERT INTO users (email, password, fname, lname, age) values "+
+       	    			"('Johncon97@gmail.com', 'temppass1', 'John', 'Con', '20')," +
+       	    			"('TedJ2@gmail.com', 'temppass2', 'Ted', 'Jaco', '23')," +
+       	    			"('JackLi@gmail.com', 'temppass3', 'Jack', 'Li', '32')," +
+       	    			"('JerrysTe@gmail.com', 'temppass4', 'Jerry', 'Smith', '21')," +
+       	    			"('BethS@gmail.com', 'temppass5', 'Beth', 'Smith', '20')," +
+       	    			"('RickJ@gmail.com', 'temppass6', 'Rick', 'James', '42')," +
+       	    			"('ThomasTheo@gmail.com', 'temppass7', 'Thomas', 'Theodore', '20')," +
+       	    			"('SallyT@gmail.com', 'temppass8', 'Sally', 'Tibet', '54')," +
+       	    			"('Jessichar@gmail.com', 'temppass9', 'Jessica', 'Harland', '20')," +
+       	    			"('Tylerww@gmail.com', 'temppass10', 'Tyler', 'Walia', '52')";
+     			
+    	
+    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+    	preparedStatement.executeUpdate();
+    	statement.execute("CREATE TABLE IF NOT EXISTS users(" +
+    			"email VARCHAR(255) NOT NULL," +
+    			"password VARCHAR(100) NOT NULL,"+
+    			"fname VARCHAR(100) NOT NULL," + 
+    			"lname VARCHAR(100) NOT NULL," +
+    			"age INT," +
+    			"PRIMARY KEY (email)"+
+    			")");
+        System.out.println("Table made again");
+    	statement.execute(sql2);
+    	
+    	
+    	
+    	return true;
     }
     
     /*

@@ -50,6 +50,11 @@ public class ControlServlet extends HttpServlet {
             case "/login":
             	login(request,response);
             	break;
+            	
+            case "/drop":
+            	dropTables(request,response);
+            	break;
+         
             /*
             case "/new":
                 showNewForm(request, response);
@@ -91,6 +96,9 @@ public class ControlServlet extends HttpServlet {
         if(username.equals("admin@root.com") && password.equals("1234")) {
         	resp.sendRedirect("welcome.jsp");
         }
+        else {
+        	resp.sendRedirect("loggedin.jsp");
+        }
     }
     
     protected void login(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
@@ -99,12 +107,20 @@ public class ControlServlet extends HttpServlet {
         String password = req.getParameter("password1");
         
         People user = new People(username, password); 	
-        if (peopleDAO.login(user)) {
-        	System.out.println("User found");
+        
+        
+        if(username.equals("admin@root.com") && password.equals("1234")) {
+        	resp.sendRedirect("welcome.jsp");
         }
         else {
-        	System.out.println("User not found");
+        	resp.sendRedirect("loggedin.jsp");
         }
+    }
+    
+    protected void dropTables(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(peopleDAO.dropTables()) {
+    		System.out.println("Table Dropped");
+    	}
     }
     	
     /*

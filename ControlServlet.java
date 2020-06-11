@@ -120,6 +120,7 @@ public class ControlServlet extends HttpServlet {
     protected void dropTables(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	if(peopleDAO.dropTables()) {
     		System.out.println("Table Dropped");
+    		resp.sendRedirect("welcome.jsp");
     	}
     }
     	

@@ -23,13 +23,22 @@ input {
 	height: auto;
 	font-size: 20px;
 	font-weight: bold;
-	color: #07594D;
-	background-color: #006bb3;
+	color: #99ccff;
+	background-color: #806000;
 	border: 5px solid #07594D;
 	border-radius: 15px;
 	padding: 2px;
 }
-
+h1 {
+	color: #99ccff;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+}
+prompts {
+	color: #99ccff;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+}
 body {
 	border: 4px solid #ff9900;
 	border-radius: 20px;
@@ -69,17 +78,17 @@ function CheckPasswordEqual(form)
 	<br>
 	<form onSubmit="return CheckPasswordEqual(this)" method="post" action="signup">
 		
-			<label for="username"><b>Email:</label></b> <input type="email"
+			<label for="username"><prompts><b>Email:</label></b></prompts> <input type="email"
 				id="email" name="email"><br>
-			<br> <label for="password"><b>Password:</label></b> <input
+			<br> <label for="password"><prompts><b>Password:</label></b></prompts> <input
 				type="password" id="password1" name="password1"><br>
-			<br> <label for="password"><b>Confirm Password:</label></b> <input
+			<br> <label for="password"><prompts><b>Confirm Password:</label></b></prompts> <input
 				type="password" id="password2" name="password2"><br>
-			<br> <label for="fname"><b>First Name:</label></b> <input type="text"
+			<br> <label for="fname"><prompts><b>First Name:</label></b></prompts> <input type="text"
 				id="fname" name="fname"><br>
-			<br> <label for="lname"><b>Last Name:</label></b> <input type="text"
+			<br> <label for="lname"><prompts><b>Last Name:</label></b></prompts> <input type="text"
 				id="lname" name="lname"><br>
-			<br> <label for="fname"><b>Age:</label></b> <input type="text" id="age"
+			<br> <label for="fname"><prompts><b>Age:</label></b></prompts> <input type="text" id="age"
 				name="age"><br>
 			<br> <input type="submit" id="submitbtn" value="Submit">
 		

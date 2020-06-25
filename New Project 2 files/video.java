@@ -20,12 +20,43 @@ public class video {
 	    
 	   
 	 
-	    public int getId() {
-	        return id;
+	    public String getURL() {
+	        return URL;
+	    }
+	    
+	    public void setURL(String URL) {
+	    	this.URL = URL;
+	    }
+	    
+	    public String getTitle() {
+	        return title;
+	    }
+	    
+	    public void setTitle(String title) {
+	    	this.title = title;
+	    }
+	    
+	    public String getDescription() {
+	        return description;
+	    }
+	    
+	    public void setDescription(String description) {
+	    	this.description = description;
+	    }
+	    
+	    public String getTags() {
+	        return tags;
+	    }
+	    
+	    public void setTags(String tags) {
+	    	this.tags = tags;
 	    }
 	 
-	    public void setId(int id) {
-	        this.id = id;
-	    }
+	    public String toString() {
+	        return ("URL:"+this.getURL()+
+	                    " Title: "+ this.getTitle() +
+	                    " Description: "+ this.getDescription() +
+	                    " Tags : " + this.getTags());
+	   }
 	
 }

@@ -59,6 +59,9 @@ public class ControlServlet extends HttpServlet {
             	insert(request,response);
             	break;
          
+            case "/search":
+            	search(request,response);
+            	break;
            
             }
         } catch (Exception ex) {
@@ -127,6 +130,16 @@ public class ControlServlet extends HttpServlet {
         
         peopleDAO.insertVideo(freshVideo);
 
+    }
+    
+    protected void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	String parameters = req.getParameter("params");
+    	
+    	List<video> results = peopleDAO.searchResults(parameters);
+    	
+    	RequestDispatcher dispatcher = req.getRequestDispatcher("results.jsp");
+    	req.setAttribute("listResults", results);
+    	dispatcher.forward(req, resp);
     }
     
     /*

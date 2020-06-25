@@ -18,6 +18,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 //import java.sql.Statement;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 /**
  * Servlet implementation class Connect
@@ -216,6 +217,41 @@ public class PeopleDAO {
         preparedStatement.close();
         //disconnect();
         return rowInserted;
+    }
+    
+    protected List<video> searchResults(String params) throws SQLException{
+    	video searchResult = null;
+    	
+    	List<video> listResults= new ArrayList<video>();   
+    	
+    	createVideoTable();
+    	
+    	String fullParams = "%"+params+"%";
+    	String sql = "SELECT * FROM video WHERE url like ? OR title like ? OR description like ? OR tags like ?";
+    	
+    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+    	preparedStatement.setString(1, fullParams);
+    	preparedStatement.setString(2, fullParams);
+    	preparedStatement.setString(3, fullParams);
+    	preparedStatement.setString(4, fullParams);
+    	
+    	ResultSet resultSet = preparedStatement.executeQuery();
+    	
+    	while (resultSet.next()) {
+            String url = resultSet.getString("URL");
+            String title = resultSet.getString("title");
+            String description = resultSet.getString("description");
+            String tags = resultSet.getString("tags");
+             
+            searchResult = new video(url, title, description, tags);
+            listResults.add(searchResult);
+            System.out.println(Arrays.toString(listResults.toArray()));
+        }
+    	
+    	resultSet.close();
+    	preparedStatement.close();
+    	
+    	return listResults;
     }
     
     /*

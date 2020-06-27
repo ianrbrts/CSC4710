@@ -5,6 +5,7 @@ public class video {
 	    protected String title;
 	    protected String description;
 	    protected String tags;
+	    protected String email;
 	 
 	    public video() {
 	    }
@@ -18,6 +19,16 @@ public class video {
 	        
 	    }
 	    
+	    public video(String URL, String email) {
+	    	this.URL = URL;
+	    	this.email = email;
+	    }
+	    
+	    public video(String URL, String email, String title) {
+	    	this.URL = URL;
+	    	this.email = email;
+	    	this.title = title;
+	    }
 	   
 	 
 	    public String getURL() {
@@ -51,11 +62,20 @@ public class video {
 	    public void setTags(String tags) {
 	    	this.tags = tags;
 	    }
+	    
+	    public String getEmail() {
+	        return email;
+	    }
+	    
+	    public void setEmail(String email) {
+	    	this.email = email;
+	    }
 	 
 	    public String toString() {
 	        return ("URL:"+this.getURL()+
 	                    " Title: "+ this.getTitle() +
 	                    " Description: "+ this.getDescription() +
+	                    " Email: " + this.getEmail() +
 	                    " Tags : " + this.getTags());
 	   }
 	

@@ -54,7 +54,7 @@ public class PeopleDAO {
             			"password VARCHAR(100) NOT NULL,"+
             			"fname VARCHAR(100) NOT NULL," + 
             			"lname VARCHAR(100) NOT NULL," +
-            			"age INT," +
+            			"age INT," +            			
             			"PRIMARY KEY (email)"+
             			")");
                 System.out.println("Table made");
@@ -82,6 +82,7 @@ public class PeopleDAO {
             			"title VARCHAR(100) NOT NULL,"+
             			"description VARCHAR(100) NOT NULL," + 
             			"tags VARCHAR(100) NOT NULL," +
+            			"favorite VARCHAR(255)," +
             			"PRIMARY KEY (URL)"+
             			")");
                 System.out.println("Table made");
@@ -95,6 +96,58 @@ public class PeopleDAO {
         
     }
     
+    protected void createReviewTable() throws SQLException {
+    	 try {
+         	Class.forName("com.mysql.jdbc.Driver");
+             connect = (Connection) DriverManager
+     			      .getConnection("jdbc:mysql://localhost:3306/testdb?&useSSL=false&"
+     			          + "user=john&password=pass1234");
+             System.out.println("Connection made");
+             statement = connect.createStatement();
+             
+             
+             statement.execute("CREATE TABLE IF NOT EXISTS review(" +
+            		"reviewid int NOT NULL," +
+         			"comment VARCHAR(255) NOT NULL," +
+         			"rating VARCHAR(100) NOT NULL,"+
+         			"FOREIGN KEY (URL) REFERENCES video(URL)," + 
+         			"FOREIGN KEY (email) REFERENCES users(email)," +
+         			"PRIMARY KEY (reviewid)"+
+         			")");
+             System.out.println("Review table made");
+         } catch (Exception e) {
+         	
+         	throw new SQLException(e);
+         }
+         
+         System.out.println(connect);
+    }
+    
+    protected void createFavoriteTable() throws SQLException {
+   	 try {
+        	Class.forName("com.mysql.jdbc.Driver");
+            connect = (Connection) DriverManager
+    			      .getConnection("jdbc:mysql://localhost:3306/testdb?&useSSL=false&"
+    			          + "user=john&password=pass1234");
+            System.out.println("Connection made");
+            statement = connect.createStatement();
+            
+            
+            statement.execute("CREATE TABLE IF NOT EXISTS favorite(" +
+            		"URL VARCHAR(255) NOT NULL," +
+        			"email VARCHAR(255) NOT NULL," +
+            		"favid int NOT NULL AUTO_INCREMENT," +
+        			"PRIMARY KEY(favid)"+
+        			")");
+            
+            System.out.println("Favorite table made");
+        } catch (Exception e) {
+        	
+        	throw new SQLException(e);
+        }
+        
+        System.out.println(connect);
+   }
     
     public boolean signUp(People user) throws SQLException {
     	connect_func();         
@@ -186,7 +239,7 @@ public class PeopleDAO {
     	
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
     	preparedStatement.executeUpdate();
-    	statement.execute("CREATE TABLE IF NOT EXISTS users(" +
+        statement.execute("CREATE TABLE IF NOT EXISTS users(" +
     			"email VARCHAR(255) NOT NULL," +
     			"password VARCHAR(100) NOT NULL,"+
     			"fname VARCHAR(100) NOT NULL," + 
@@ -194,6 +247,7 @@ public class PeopleDAO {
     			"age INT," +
     			"PRIMARY KEY (email)"+
     			")");
+
         System.out.println("Table made again");
     	statement.execute(sql2);
     	
@@ -253,6 +307,72 @@ public class PeopleDAO {
     	
     	return listResults;
     }
+    
+    protected boolean makeFavorite(String URL, String user) throws SQLException {
+    	createFavoriteTable();
+        createVideoTable();
+        connect_func();
+        
+        
+        String sql = "INSERT INTO favorite (URL, email) values(?,?)";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, URL);
+		preparedStatement.setString(2, user);
+		
+		//preparedStatement.executeUpdate();
+		
+        boolean rowInserted = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        //disconnect();
+        return rowInserted;
+    }
+    
+    protected List<video> showFavorite(String user) throws SQLException {
+    	createFavoriteTable();
+        createVideoTable();
+        connect_func();
+        
+        
+        List<video> favoriteList= new ArrayList<video>();  
+        
+        String sql = "SELECT favorite.URL, favorite.email, video.title "
+        		+ "FROM favorite "
+        		+ "INNER JOIN video ON favorite.URL=video.URL "
+        		+ "WHERE favorite.email LIKE ?";
+        			
+        
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);		
+		preparedStatement.setString(1, user);
+		
+		
+		
+		ResultSet resultSet1 = preparedStatement.executeQuery();
+		
+	
+    	
+    	while (resultSet1.next()) {
+            String url = resultSet1.getString("URL");
+            String email = resultSet1.getString("email");
+            String title = resultSet1.getString("title");
+            
+            
+          
+            video favoriteResult = new video(url, email, title);
+            favoriteList.add(favoriteResult);
+            System.out.println(Arrays.toString(favoriteList.toArray()));
+        }
+    	
+    	
+		
+		//preparedStatement.executeUpdate();
+		
+    	resultSet1.close();
+    	preparedStatement.close();
+    	
+    	return favoriteList;
+    }
+    
+    
     
     /*
     public List<People> listAllPeople() throws SQLException {

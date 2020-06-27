@@ -17,5 +17,11 @@
 		<input type="text" name="params">
 		<input type="submit" value="submit">
 	</form>
+	
+	<br><br>
+	
+	<form action="showfavorites" method="post">
+		<input type="submit" value="Go to favorites">
+	</form>
 </body>
 </html>

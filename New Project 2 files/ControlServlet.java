@@ -27,6 +27,7 @@ public class ControlServlet extends HttpServlet {
 
     private static final long serialVersionUID = 1L;
     private PeopleDAO peopleDAO;
+    public String tempUser = null;
  
     public void init() {
         peopleDAO = new PeopleDAO(); 
@@ -62,6 +63,18 @@ public class ControlServlet extends HttpServlet {
             case "/search":
             	search(request,response);
             	break;
+            	
+            case "/comment":
+            	comment(request,response);
+            	break;
+            	
+            case "/favorite":
+            	favorite(request,response);
+            	break;
+            	
+            case "/showfavorites":
+            	goToFavorites(request,response);
+            	break;
            
             }
         } catch (Exception ex) {
@@ -78,6 +91,8 @@ public class ControlServlet extends HttpServlet {
         String lname = req.getParameter("lname");
         String age = req.getParameter("age");
         
+        tempUser = username;
+        
         People user = new People(username, password, fname, lname, age);
         peopleDAO.signUp(user);
         
@@ -93,6 +108,8 @@ public class ControlServlet extends HttpServlet {
     	
     	String username = req.getParameter("email");
         String password = req.getParameter("password1");
+        
+        tempUser = username;
         
         People user = new People(username, password); 	
         
@@ -140,6 +157,58 @@ public class ControlServlet extends HttpServlet {
     	RequestDispatcher dispatcher = req.getRequestDispatcher("results.jsp");
     	req.setAttribute("listResults", results);
     	dispatcher.forward(req, resp);
+    }
+    
+    protected void comment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	String parameters = req.getParameter("params");
+    	
+    	List<video> results = peopleDAO.searchResults(parameters);
+    	
+    	RequestDispatcher dispatcher = req.getRequestDispatcher("results.jsp");
+    	req.setAttribute("listResults", results);
+    	dispatcher.forward(req, resp);
+    }
+    
+    protected void favorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	
+    	if(tempUser != null) {
+    		String username = tempUser;
+    		System.out.println(tempUser);
+    		String URL = req.getParameter("URL");
+        	
+        	if(peopleDAO.makeFavorite(URL, username)) {
+        		System.out.println("Favorite saved");
+        		
+        		
+            	
+            	List<video> results = peopleDAO.showFavorite(tempUser);
+            	
+            	RequestDispatcher dispatcher = req.getRequestDispatcher("favorites.jsp");
+            	req.setAttribute("listResults", results);
+            	dispatcher.forward(req, resp);
+        		
+        		
+        		
+        	}
+    	}
+    	
+    	else {
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+    		
+    		
+    	
+    	
+    }
+    
+    protected void goToFavorites(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	List<video> results = peopleDAO.showFavorite(tempUser);
+    	
+    	RequestDispatcher dispatcher = req.getRequestDispatcher("favorites.jsp");
+    	req.setAttribute("listResults", results);
+    	dispatcher.forward(req, resp);
+    	
     }
     
     /*

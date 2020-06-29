@@ -1,10 +1,20 @@
 <!DOCTYPE html>
 <html lang="en">
+
+<script>
+		function alertOnSubmit(form){
+			alert("Video submitted successfully!"); 
+			
+			var form = document.getElementById("input");
+			form.reset();
+		}
+	</script>
+	
     <head>
         <title>Insert Video</title>
     </head>
     <body>
-        <form action='insert' method="POST">
+        <form onSubmit="return alertOnSubmit(this)" action='insert' method="POST">
             <h1>Insert a video</h1>
             <br>
             <br>
@@ -22,3 +32,13 @@
 
             <input type="submit" value="Insert">
         </form>
+        
+        <br>
+        
+        <a href="loggedin.jsp">Back to home</a>
+        
+        
+        
+        
+        
+      </body>

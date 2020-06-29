@@ -27,6 +27,7 @@
                     
                     <td>
 	                    <form action="delete" method="post">
+	                    	<input type="hidden" name="URL" value="${video.URL}" >
 	                    	<input type="submit" value="delete">
 	                 	</form>  
                     </td>

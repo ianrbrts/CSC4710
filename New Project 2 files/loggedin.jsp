@@ -8,6 +8,9 @@
 </head>
 <body>
 	<p>You are logged in!</p>
+	<br>
+	
+	<a href="insert.jsp">Insert a video</a>
 	
 	<br>
 	<br>

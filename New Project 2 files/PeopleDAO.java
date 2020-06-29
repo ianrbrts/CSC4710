@@ -82,10 +82,12 @@ public class PeopleDAO {
             			"title VARCHAR(100) NOT NULL,"+
             			"description VARCHAR(100) NOT NULL," + 
             			"tags VARCHAR(100) NOT NULL," +
-            			"favorite VARCHAR(255)," +
+            			"email VARCHAR(255) NOT NULL," +
+            			"FOREIGN KEY (email) REFERENCES users(email)," +
             			"PRIMARY KEY (URL)"+
             			")");
-                System.out.println("Table made");
+                
+                System.out.println("Video table made");
             } catch (Exception e) {
             	
             	throw new SQLException(e);
@@ -256,15 +258,16 @@ public class PeopleDAO {
     	return true;
     }
     
-    protected boolean insertVideo(video freshVideo) throws SQLException {
+    protected boolean insertVideo(video freshVideo, String email) throws SQLException {
         createVideoTable();
         
-        String sql = "insert into video(URL, title, description, tags) values (?, ?, ?, ?)";
+        String sql = "insert into video(URL, title, description, tags, email) values (?, ?, ?, ?, ?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, freshVideo.URL);
 		preparedStatement.setString(2, freshVideo.title);
 		preparedStatement.setString(3, freshVideo.description);
 		preparedStatement.setString(4, freshVideo.tags);
+		preparedStatement.setString(5, email);
 		//preparedStatement.executeUpdate();
 		
         boolean rowInserted = preparedStatement.executeUpdate() > 0;
@@ -315,6 +318,25 @@ public class PeopleDAO {
         
         
         String sql = "INSERT INTO favorite (URL, email) values(?,?)";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, URL);
+		preparedStatement.setString(2, user);
+		
+		//preparedStatement.executeUpdate();
+		
+        boolean rowInserted = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        //disconnect();
+        return rowInserted;
+    }
+    
+    protected boolean deleteFavorite(String URL, String user) throws SQLException {
+    	createFavoriteTable();
+        createVideoTable();
+        connect_func();
+        
+        
+        String sql = "DELETE FROM favorite WHERE URL = ? AND email = ?";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
 		preparedStatement.setString(1, URL);
 		preparedStatement.setString(2, user);

@@ -76,6 +76,10 @@ public class ControlServlet extends HttpServlet {
             	goToFavorites(request,response);
             	break;
            
+            case "/delete":
+            	deleteFavorite(request,response);
+            	break;
+            	
             }
         } catch (Exception ex) {
             throw new ServletException(ex);
@@ -109,6 +113,7 @@ public class ControlServlet extends HttpServlet {
     	String username = req.getParameter("email");
         String password = req.getParameter("password1");
         
+        //variable to store the current user - probably a better way to do this
         tempUser = username;
         
         People user = new People(username, password); 	
@@ -136,19 +141,37 @@ public class ControlServlet extends HttpServlet {
     	}
     }
     	
-    
+    //inserting a video onto the video table
     protected void insert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
-    	String URL = req.getParameter("url");
-        String title= req.getParameter("title");
-        String description = req.getParameter("description");
-        String tags = req.getParameter("tags");
-        
-        video freshVideo = new video(URL, title, description, tags);
-        
-        peopleDAO.insertVideo(freshVideo);
-
+    	if(tempUser != null) {
+    		String username = tempUser;
+    		System.out.println(tempUser);
+    	
+	    	String URL = req.getParameter("url");
+	        String title= req.getParameter("title");
+	        String description = req.getParameter("description");
+	        String tags = req.getParameter("tags");
+	        
+	        video freshVideo = new video(URL, title, description, tags);
+	        
+	        peopleDAO.insertVideo(freshVideo, username);
+	        
+	        
+	        RequestDispatcher dispatcher = req.getRequestDispatcher("insert.jsp");
+	    	req.setAttribute("msg", "");
+	    	dispatcher.forward(req, resp);
+	        
+	        
+	        
+    	}
+    	else {
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+    	
     }
     
+    //providing search results
     protected void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	String parameters = req.getParameter("params");
     	
@@ -159,6 +182,8 @@ public class ControlServlet extends HttpServlet {
     	dispatcher.forward(req, resp);
     }
     
+    
+    //method to add comments to the favorites table
     protected void comment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	String parameters = req.getParameter("params");
     	
@@ -169,8 +194,9 @@ public class ControlServlet extends HttpServlet {
     	dispatcher.forward(req, resp);
     }
     
+    //method to store a favorite in the favorites table 
     protected void favorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
-    	
+    	//variable to store the current user - probably a better way to do this
     	if(tempUser != null) {
     		String username = tempUser;
     		System.out.println(tempUser);
@@ -202,6 +228,7 @@ public class ControlServlet extends HttpServlet {
     	
     }
     
+    //method that gets the current user's saved favorites
     protected void goToFavorites(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	List<video> results = peopleDAO.showFavorite(tempUser);
     	
@@ -209,6 +236,32 @@ public class ControlServlet extends HttpServlet {
     	req.setAttribute("listResults", results);
     	dispatcher.forward(req, resp);
     	
+    }
+    
+    //deleting a favorite that was previously saved
+    protected void deleteFavorite(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(tempUser != null) {
+    		String username = tempUser;
+    		System.out.println(tempUser);
+    		String URL = req.getParameter("URL");
+    		System.out.println(URL);
+        	
+        	if(peopleDAO.deleteFavorite(URL, username)) {
+        		System.out.println("Favorite saved");
+        		
+            	List<video> results = peopleDAO.showFavorite(tempUser);
+            	
+            	RequestDispatcher dispatcher = req.getRequestDispatcher("favorites.jsp");
+            	req.setAttribute("listResults", results);
+            	dispatcher.forward(req, resp);
+        		
+        	}
+    	}
+    	
+    	else {
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
     }
     
     /*

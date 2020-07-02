@@ -158,13 +158,17 @@ public class ControlServlet extends HttpServlet {
 	        
 	        video freshVideo = new video(URL, title, description, tags);
 	        
-	        peopleDAO.insertVideo(freshVideo, username);
+	        if(peopleDAO.insertVideo(freshVideo, username)) {
+	        	RequestDispatcher dispatcher = req.getRequestDispatcher("insert.jsp");
+		    	req.setAttribute("msg", "");
+		    	dispatcher.forward(req, resp);
+	        }
+	        else {
+	        	RequestDispatcher dispatcher = req.getRequestDispatcher("loggedin.jsp");
+		    	dispatcher.forward(req, resp);
+	        }
 	        
-	        
-	        RequestDispatcher dispatcher = req.getRequestDispatcher("insert.jsp");
-	    	req.setAttribute("msg", "");
-	    	dispatcher.forward(req, resp);
-	        
+	        	        
 	        
 	        
     	}

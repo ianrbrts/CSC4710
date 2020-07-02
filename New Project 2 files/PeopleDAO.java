@@ -81,7 +81,8 @@ public class PeopleDAO {
             			"URL VARCHAR(255) NOT NULL," +
             			"title VARCHAR(100) NOT NULL,"+
             			"description VARCHAR(100) NOT NULL," + 
-            			"tags VARCHAR(100) NOT NULL," +
+            			"tags VARCHAR(100) NOT NULL,"
+            			+ "date DATE NOT NULL," +
             			"email VARCHAR(255) NOT NULL," +
             			"FOREIGN KEY (email) REFERENCES users(email)," +
             			"PRIMARY KEY (URL)"+
@@ -262,8 +263,23 @@ public class PeopleDAO {
     protected boolean insertVideo(video freshVideo, String email) throws SQLException {
         createVideoTable();
         
-        String sql = "insert into video(URL, title, description, tags, email) values (?, ?, ?, ?, ?)";
-		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        String sql2 = "insert into video(URL, title, description, tags, email, date) values (?, ?, ?, ?, ?, CURDATE())";
+		String sql1 = "SELECT * FROM video WHERE email = ? AND date = CURDATE()";
+		
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql1);
+        preparedStatement.setString(1, email);
+        ResultSet resultSet = preparedStatement.executeQuery();
+        resultSet.last();
+        
+        if(resultSet.getRow() >= 4) {
+        	System.out.println(email + resultSet.getRow() + "This is true");
+        	return false;
+        }
+        else {
+        	System.out.println(email + resultSet.getRow() + "This is false");
+        }
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql2);
 		preparedStatement.setString(1, freshVideo.URL);
 		preparedStatement.setString(2, freshVideo.title);
 		preparedStatement.setString(3, freshVideo.description);

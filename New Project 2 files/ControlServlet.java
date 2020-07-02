@@ -65,6 +65,10 @@ public class ControlServlet extends HttpServlet {
             	break;
             	
             case "/comment":
+            	goToComment(request,response);
+            	break;
+            
+            case "/postcomment":
             	comment(request,response);
             	break;
             	
@@ -182,16 +186,53 @@ public class ControlServlet extends HttpServlet {
     	dispatcher.forward(req, resp);
     }
     
+    protected void goToComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(tempUser != null) {
+    		String username = tempUser;
+    		System.out.println(tempUser);
+    		String URL = req.getParameter("URL");
+    	
+    		List<review> allComments = peopleDAO.showComments(URL);
+    	
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("CommentPage.jsp");
+	    	req.setAttribute("URL", URL);
+	    	req.setAttribute("listComments", allComments);
+			dispatcher.forward(req, resp);
+    	}
+    	else {
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+    }
+    
     
     //method to add comments to the favorites table
     protected void comment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
-    	String parameters = req.getParameter("params");
+    	if(tempUser != null) {
+    		String username = tempUser;
+    		System.out.println(tempUser);
+    		String rating = req.getParameter("rating");
+    		String comments = req.getParameter("Comments");
+    		String URL = req.getParameter("URL");
+        	
+        	if(peopleDAO.comment(URL, username, rating, comments)) {
+        		System.out.println("comment submitted");
+        		
+        		
+        		List<review> allComments = peopleDAO.showComments(URL);
+            	
+    	    	RequestDispatcher dispatcher = req.getRequestDispatcher("CommentPage.jsp");
+    	    	req.setAttribute("URL", URL);
+    	    	req.setAttribute("listComments", allComments);
+    			dispatcher.forward(req, resp);
+        	
+        	}
+    	}
     	
-    	List<video> results = peopleDAO.searchResults(parameters);
-    	
-    	RequestDispatcher dispatcher = req.getRequestDispatcher("results.jsp");
-    	req.setAttribute("listResults", results);
-    	dispatcher.forward(req, resp);
+    	else {
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
     }
     
     //method to store a favorite in the favorites table 

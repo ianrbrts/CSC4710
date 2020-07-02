@@ -109,11 +109,12 @@ public class PeopleDAO {
              
              
              statement.execute("CREATE TABLE IF NOT EXISTS review(" +
-            		"reviewid int NOT NULL," +
+            		
          			"comment VARCHAR(255) NOT NULL," +
          			"rating VARCHAR(100) NOT NULL,"+
-         			"FOREIGN KEY (URL) REFERENCES video(URL)," + 
-         			"FOREIGN KEY (email) REFERENCES users(email)," +
+         			"URL VARCHAR(255) NOT NULL,"+
+         			"email VARCHAR(255) NOT NULL,"+
+         			"reviewid int(1) NOT NULL AUTO_INCREMENT," +
          			"PRIMARY KEY (reviewid)"+
          			")");
              System.out.println("Review table made");
@@ -394,7 +395,66 @@ public class PeopleDAO {
     	return favoriteList;
     }
     
+    protected boolean comment(String URL, String username, String rating, String comment) throws SQLException {
+    	createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        
+        String sql = "INSERT INTO review (comment, rating, URL, email) VALUES (?,?,?,?)";
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+		preparedStatement.setString(1, comment);
+		preparedStatement.setString(2, rating);
+		preparedStatement.setString(3, URL);
+		preparedStatement.setString(4, username);
+		
+		//preparedStatement.executeUpdate();
+		
+        boolean rowInserted = preparedStatement.executeUpdate() > 0;
+        preparedStatement.close();
+        //disconnect();
+        return rowInserted;
+    }
     
+    protected List<review> showComments(String URL) throws SQLException {
+    	createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        
+        List<review> reviewList= new ArrayList<review>();  
+        
+        String sql = "SELECT * FROM review"
+        		+ " WHERE URL=?";
+        
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, URL);
+        	
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+		
+    	while (resultSet1.next()) {
+            
+            String email = resultSet1.getString("email");
+            String rating = resultSet1.getString("rating");
+            String comment = resultSet1.getString("comment");
+            
+          
+            review allComments = new review(URL, email, rating, comment);
+            reviewList.add(allComments);
+            System.out.println(Arrays.toString(reviewList.toArray()));
+        }
+    	
+    	
+		
+		//preparedStatement.executeUpdate();
+		
+    	resultSet1.close();
+    	preparedStatement.close();
+    	
+    	return reviewList;
+        
+    }
     
     /*
     public List<People> listAllPeople() throws SQLException {

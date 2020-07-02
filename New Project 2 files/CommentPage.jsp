@@ -1,5 +1,8 @@
-
-<!DOCTYPE html>
+<%@ page import="java.util.List" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+    pageEncoding="ISO-8859-1"%>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="index.css">
@@ -61,17 +64,13 @@ body {
 	<h1>Comment Page</h1>
 	<br>
 	<br>
-	<form onSubmit="return CheckPasswordEqual(this)" method="post" action="comment">
+	<form onSubmit="return CheckPasswordEqual(this)" method="post" action="postcomment">
 		
-			<label for="URL"><prompts><b>Video URL:</label></b></prompts> <input type="text"
-				id="URL" name="URL"><br>
+			<label for="URL"><prompts><b></label></b></prompts> <input type="hidden"
+				id="URL" name="URL" value="${URL}"><br>
 				
 		
-			<br> <label for="reviewer"><prompts><b>Reviewer:</label></b></prompts> <input type="text"
-				id="reviewer" name="reviewer"><br>
-
-<br>
-	<br> <label for="rating"><prompts><b>Rating:</label></b> <select id ="rating" name="rating">
+			<br> <label for="rating"><prompts><b>Rating:</label></b> <select id ="rating" name="rating">
 			<option value ="poor">Poor</option>
 			<option value ="fair">Fair</option>
 			<option value ="good">Good</option>
@@ -79,11 +78,25 @@ body {
 		
 			</select><br>
 			
+
+<br>
  <textarea name="Comments" placeholder = "Comments" style="font-size: 12pt; height: 100px; width:400px;" rows="5" required></textarea>
 			<br> <input type="submit" id="submitbtn" value="Submit">
 		
 		<br>
 	</form>
+	
+	<table>
+		<c:forEach var="review" items="${listComments}">
+	                <tr>
+	                    <td><c:out value="${review.email}"/></td>
+	                    <td><c:out value="${review.rating}"/></td>
+	                    <td><c:out value="${review.comment}"/></td>
+	                       
+	                </tr>
+	    </c:forEach>
+	</table>
+		
 	
 </body>
 </html>

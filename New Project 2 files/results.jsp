@@ -37,6 +37,7 @@
                     
                     
                     <form action="comment" method="post">
+                    	<td><input type="hidden" name="URL" value="${video.URL}" >
                     	<td><input type="submit" value="Comment"></td>
                     </form>
                    

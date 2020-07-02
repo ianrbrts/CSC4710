@@ -67,12 +67,18 @@ body {
 				id="URL" name="URL"><br>
 				
 		
-			<br> <label for="rating"><prompts><b>Rating(P, F, G, E):</label></b></prompts> <input
-				type="text" id="rating" name="rating"><br>
 			<br> <label for="reviewer"><prompts><b>Reviewer:</label></b></prompts> <input type="text"
 				id="reviewer" name="reviewer"><br>
 
 <br>
+	<br> <label for="rating"><prompts><b>Rating:</label></b> <select id ="rating" name="rating">
+			<option value ="poor">Poor</option>
+			<option value ="fair">Fair</option>
+			<option value ="good">Good</option>
+			<option value ="excellent">Excellent</option>
+		
+			</select><br>
+			
  <textarea name="Comments" placeholder = "Comments" style="font-size: 12pt; height: 100px; width:400px;" rows="5" required></textarea>
 			<br> <input type="submit" id="submitbtn" value="Submit">
 		

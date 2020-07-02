@@ -271,7 +271,7 @@ public class PeopleDAO {
         ResultSet resultSet = preparedStatement.executeQuery();
         resultSet.last();
         
-        if(resultSet.getRow() >= 4) {
+        if(resultSet.getRow() >= 5) {
         	System.out.println(email + resultSet.getRow() + "This is true");
         	return false;
         }

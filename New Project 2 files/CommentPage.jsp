@@ -70,7 +70,7 @@ body {
 				id="URL" name="URL" value="${URL}"><br>
 				
 		
-			<br> <label for="rating"><prompts><b>Rating:</label></b> <select id ="rating" name="rating">
+		<br> <label for="rating"><prompts><b>Rating:</prompts></label></b> <select id ="rating" name="rating">
 			<option value ="poor">Poor</option>
 			<option value ="fair">Fair</option>
 			<option value ="good">Good</option>

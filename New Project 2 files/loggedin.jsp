@@ -59,7 +59,9 @@ body {
 	<h1>You are logged in!</h1>
 	<br>
 	
-	<a href="insert.jsp">Insert a video</a>
+	<form method="post" action="gotoinsert">
+		<input type="submit" value="Insert Video">
+	</form>
 	
 	<br>
 	<br>

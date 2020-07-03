@@ -6,11 +6,20 @@ public class video {
 	    protected String description;
 	    protected String tags;
 	    protected String email;
+	    protected String comedian;
 	 
 	    public video() {
 	    }
 	 
-	     
+	    public video(String URL, String title, String description, String tags, String comedian) {
+	        this.URL = URL;
+	        this.title= title;
+	        this.description = description;
+	        this.tags = tags;
+	        this.comedian = comedian;
+	        
+	    }
+	    
 	    public video(String URL, String title, String description, String tags) {
 	        this.URL = URL;
 	        this.title= title;
@@ -29,8 +38,20 @@ public class video {
 	    	this.email = email;
 	    	this.title = title;
 	    }
+	    
+	    public video(String comedian) {
+	    	this.comedian = comedian;
+	    }
 	   
 	 
+	    public String getComedian() {
+	    	return comedian;
+	    }
+	    
+	    public void setComedian(String comedian) {
+	    	this.comedian = comedian;
+	    }
+	    
 	    public String getURL() {
 	        return URL;
 	    }

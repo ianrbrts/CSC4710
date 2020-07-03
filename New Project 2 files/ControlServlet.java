@@ -56,6 +56,10 @@ public class ControlServlet extends HttpServlet {
             	dropTables(request,response);
             	break;
             	
+            case "/gotoinsert":
+            	goToInsert(request,response);
+            	break;
+            	
             case "/insert":
             	insert(request,response);
             	break;
@@ -145,6 +149,25 @@ public class ControlServlet extends HttpServlet {
     	}
     }
     	
+    protected void goToInsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(tempUser != null) {
+    		List<video> comedianNames = peopleDAO.showComedianNames(tempUser);
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("insert.jsp");
+	    	req.setAttribute("comedianList", comedianNames);
+	    	dispatcher.forward(req, resp);
+	        
+	        	        
+	        
+	        
+    	}
+    	else {
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+    	
+    }
+    
     //inserting a video onto the video table
     protected void insert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	if(tempUser != null) {
@@ -155,12 +178,15 @@ public class ControlServlet extends HttpServlet {
 	        String title= req.getParameter("title");
 	        String description = req.getParameter("description");
 	        String tags = req.getParameter("tags");
+	        String comedian = req.getParameter("comedian");
 	        
-	        video freshVideo = new video(URL, title, description, tags);
+	        video freshVideo = new video(URL, title, description, tags, comedian);
 	        
 	        if(peopleDAO.insertVideo(freshVideo, username)) {
-	        	RequestDispatcher dispatcher = req.getRequestDispatcher("insert.jsp");
-		    	req.setAttribute("msg", "");
+	        	List<video> comedianNames = peopleDAO.showComedianNames(tempUser);
+	    		
+	    		RequestDispatcher dispatcher = req.getRequestDispatcher("insert.jsp");
+		    	req.setAttribute("comedianList", comedianNames);
 		    	dispatcher.forward(req, resp);
 	        }
 	        else {

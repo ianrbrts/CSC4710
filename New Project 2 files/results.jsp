@@ -70,8 +70,8 @@ body {
                 
                 <th>URL</th>
                 <th>Title</th>
-                <th>Description</th>
-                <th>Tags</th>
+                <th>Favorite</th>
+                <th>Comment</th>
             </tr>
             <c:forEach var="video" items="${listResults}">
                 <tr>
@@ -85,11 +85,13 @@ body {
 	                 	</form>  
                     </td>
                     
-                    
-                    <form action="comment" method="post">
-                    	<td><input type="hidden" name="URL" value="${video.URL}" >
-                    	<td><input type="submit" id="submitbtn" value="Comment"></td>
-                    </form>
+                    <td>
+	                    <form action="comment" method="post">
+	                    	<input type="hidden" name="URL" value="${video.URL}" >
+	                    	<input type="submit" id="submitbtn" value="Comment">
+	                    </form>
+                   </td>
+                   
                    
                 </tr>
             </c:forEach>

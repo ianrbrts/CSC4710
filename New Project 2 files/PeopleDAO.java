@@ -83,8 +83,10 @@ public class PeopleDAO {
             			"description VARCHAR(100) NOT NULL," + 
             			"tags VARCHAR(100) NOT NULL,"
             			+ "date DATE NOT NULL," +
-            			"email VARCHAR(255) NOT NULL," +
-            			"FOREIGN KEY (email) REFERENCES users(email)," +
+            			"email VARCHAR(255) NOT NULL,"
+            			+ "comedian VARCHAR(255) NOT NULL," +
+            			"FOREIGN KEY (email) REFERENCES users(email),"
+            			+ "FOREIGN KEY (comedian) REFERENCES comedian(name)," +
             			"PRIMARY KEY (URL)"+
             			")");
                 
@@ -152,6 +154,45 @@ public class PeopleDAO {
         
         System.out.println(connect);
    }
+    
+    protected void createComedianTable() throws SQLException{
+    	 try {
+         	Class.forName("com.mysql.jdbc.Driver");
+             connect = (Connection) DriverManager
+     			      .getConnection("jdbc:mysql://localhost:3306/testdb?&useSSL=false&"
+     			          + "user=john&password=pass1234");
+             System.out.println("Connection made");
+             statement = connect.createStatement();
+             
+             
+             statement.execute("CREATE TABLE IF NOT EXISTS comedian(" +
+             		"name VARCHAR(255) NOT NULL," +
+         			"birthday VARCHAR(255) NOT NULL,"
+         			+ "birthplace VARCHAR(255) NOT NULL," +
+          			"PRIMARY KEY(name)"+
+         			")");
+             
+             String sql = "INSERT IGNORE INTO comedian (name, birthday, birthplace) values "+
+    	    			"('Dave Chappelle', '8/24/1973', 'Washington DC')," +
+    	    			"('Jerry Seinfeld', '04/29/1954', 'Brooklyn, NY')," +
+    	    			"('Bill Burr', '06/10/1968', 'Canton, MA')," +
+    	    			"('Robin Williams', '07/21/1951', 'Chicago, IL')," +
+    	    			"('John Mulaney', '08/26/1982', 'Chicago, IL')," +
+    	    			"('Eddie Murphy', '04/03/1961', 'Brooklyn, NY')," +
+    	    			"('George Carlin', '05/12/1937', 'Manhattan, NY')";
+    	    			
+             
+            preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+         	preparedStatement.executeUpdate();
+             
+             System.out.println("Comedian table made");
+         } catch (Exception e) {
+         	
+         	throw new SQLException(e);
+         }
+         
+         System.out.println(connect);
+    }
     
     public boolean signUp(People user) throws SQLException {
     	connect_func();         
@@ -262,8 +303,9 @@ public class PeopleDAO {
     
     protected boolean insertVideo(video freshVideo, String email) throws SQLException {
         createVideoTable();
+        createComedianTable();
         
-        String sql2 = "insert into video(URL, title, description, tags, email, date) values (?, ?, ?, ?, ?, CURDATE())";
+        String sql2 = "insert into video(URL, title, description, tags, email, comedian, date) values (?, ?, ?, ?, ?, ?, CURDATE())";
 		String sql1 = "SELECT * FROM video WHERE email = ? AND date = CURDATE()";
 		
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql1);
@@ -272,11 +314,11 @@ public class PeopleDAO {
         resultSet.last();
         
         if(resultSet.getRow() >= 5) {
-        	System.out.println(email + resultSet.getRow() + "This is true");
+        	System.out.println(email + (resultSet.getRow() + 1) + "This is true");
         	return false;
         }
         else {
-        	System.out.println(email + resultSet.getRow() + "This is false");
+        	System.out.println(email + (resultSet.getRow() + 1) + "This is false");
         }
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql2);
@@ -285,6 +327,7 @@ public class PeopleDAO {
 		preparedStatement.setString(3, freshVideo.description);
 		preparedStatement.setString(4, freshVideo.tags);
 		preparedStatement.setString(5, email);
+		preparedStatement.setString(6, freshVideo.comedian);
 		//preparedStatement.executeUpdate();
 		
         boolean rowInserted = preparedStatement.executeUpdate() > 0;
@@ -409,6 +452,37 @@ public class PeopleDAO {
     	preparedStatement.close();
     	
     	return favoriteList;
+    }
+    
+    protected List<video> showComedianNames(String user) throws SQLException {
+    	createComedianTable();
+        createVideoTable();
+        connect_func();
+        
+        
+        List<video> comedianList= new ArrayList<video>();  
+        
+        String sql = "SELECT name FROM comedian ";
+        		
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);		
+		
+		ResultSet resultSet1 = preparedStatement.executeQuery();
+		
+    	while (resultSet1.next()) {
+            String name = resultSet1.getString("name");            
+          
+            video comedianResult = new video(name);
+            comedianList.add(comedianResult);
+        }
+    	
+    	
+		
+		//preparedStatement.executeUpdate();
+		
+    	resultSet1.close();
+    	preparedStatement.close();
+    	
+    	return comedianList;
     }
     
     protected boolean comment(String URL, String username, String rating, String comment) throws SQLException {

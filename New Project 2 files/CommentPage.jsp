@@ -53,6 +53,7 @@ body {
 	background-size: 100% 100%;
 	text-align: center;
 }
+
 </style>
 <meta "charset=UTF-8">
 <title>Comment Page</title>
@@ -70,7 +71,7 @@ body {
 				id="URL" name="URL" value="${URL}"><br>
 				
 		
-		<br> <label for="rating"><prompts><b>Rating:</prompts></label></b> <select id ="rating" name="rating">
+			<br> <label for="rating"><prompts><b>Rating:</label></b> <select id ="rating" name="rating">
 			<option value ="poor">Poor</option>
 			<option value ="fair">Fair</option>
 			<option value ="good">Good</option>
@@ -81,21 +82,25 @@ body {
 
 <br>
  <textarea name="Comments" placeholder = "Comments" style="font-size: 12pt; height: 100px; width:400px;" rows="5" required></textarea>
-			<br> <input type="submit" id="submitbtn" value="Submit">
+			<br><br> <input type="submit" id="submitbtn" value="Submit">
 		
 		<br>
 	</form>
+		<br><br>
 	
-	<table>
-		<c:forEach var="review" items="${listComments}">
-	                <tr>
-	                    <td><c:out value="${review.email}"/></td>
-	                    <td><c:out value="${review.rating}"/></td>
-	                    <td><c:out value="${review.comment}"/></td>
-	                       
-	                </tr>
-	    </c:forEach>
-	</table>
+		<table align="center" border="1" cellpadding="5">
+		
+			<c:forEach var="review" items="${listComments}">
+		                <tr>
+		                    <td><u>User:</u><c:out value="${review.email}"/></td>
+		                    <td><u>Rating:</u><c:out value="${review.rating}"/></td>
+		                    <td><u>Comment:</u><c:out value="${review.comment}"/></td>
+		                       
+		                </tr>
+		    </c:forEach>
+		</table>
+	
+		
 		
 	
 </body>

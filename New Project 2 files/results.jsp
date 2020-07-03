@@ -6,6 +6,56 @@
 
 <html lang="en">
     <head>
+	    <link rel="stylesheet" type="text/css" href="index.css">
+<style>
+
+label {
+	display: inline-block;
+	width: 150px;
+	margin-right: 15px;
+	text-align: left;
+}
+
+input {
+	
+	width: 300px;
+	margin: 0px auto;
+}
+
+#submitbtn {
+	display: inline-block;
+	 width: 200px;
+	height: auto;
+	font-size: 20px;
+	font-weight: bold;
+	color: #99ccff;
+	background-color: #806000;
+	border: 5px solid #07594D;
+	border-radius: 15px;
+	padding: 2px;
+}
+h1 {
+	color: #99ccff;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+}
+prompts {
+	
+	color: #99ccff;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+}
+body {
+	border: 4px solid #ff9900;
+	border-radius: 20px;
+	margin: 5px;
+	padding: 5px;
+	background-color: #cf941f;
+	background-size: 100% 100%;
+	text-align: center;
+}
+</style>
+<meta "charset=UTF-8">
         <title>Search Results</title>
     </head>
     <body>
@@ -15,7 +65,7 @@
                   
      <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h2>List of People</h2></caption>
+            <caption><h1>List of People</h1></caption>
             <tr>
                 
                 <th>URL</th>
@@ -31,14 +81,14 @@
                     <td>
 	                    <form action="favorite" method="post">
 	                    	<input type="hidden" name="URL" value="${video.URL}" >
-	                    	<input type="submit" value="Favorite">
+	                    	<input type="submit" id="submitbtn" value="Favorite">
 	                 	</form>  
                     </td>
                     
                     
                     <form action="comment" method="post">
                     	<td><input type="hidden" name="URL" value="${video.URL}" >
-                    	<td><input type="submit" value="Comment"></td>
+                    	<td><input type="submit" id="submitbtn" value="Comment"></td>
                     </form>
                    
                 </tr>
@@ -49,7 +99,8 @@
         <a href="loggedin.jsp">Back to Home</a>
     </div>
      
-     
+	</body>
+</html>
      
      
      

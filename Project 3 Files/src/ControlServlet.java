@@ -148,7 +148,8 @@ public class ControlServlet extends HttpServlet {
     		resp.sendRedirect("welcome.jsp");
     	}
     }
-    	
+    
+    //method that gets called when clicking on the insert button from home
     protected void goToInsert(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	if(tempUser != null) {
     		List<video> comedianNames = peopleDAO.showComedianNames(tempUser);
@@ -156,9 +157,6 @@ public class ControlServlet extends HttpServlet {
     		RequestDispatcher dispatcher = req.getRequestDispatcher("insert.jsp");
 	    	req.setAttribute("comedianList", comedianNames);
 	    	dispatcher.forward(req, resp);
-	        
-	        	        
-	        
 	        
     	}
     	else {
@@ -209,6 +207,7 @@ public class ControlServlet extends HttpServlet {
     protected void search(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	String parameters = req.getParameter("params");
     	
+    	//getting an arraylist of all the results that match the params
     	List<video> results = peopleDAO.searchResults(parameters);
     	
     	RequestDispatcher dispatcher = req.getRequestDispatcher("results.jsp");
@@ -216,16 +215,20 @@ public class ControlServlet extends HttpServlet {
     	dispatcher.forward(req, resp);
     }
     
+    //method that is called when the user clicks on comment button from results.jsp
     protected void goToComment(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	if(tempUser != null) {
-    		String username = tempUser;
-    		System.out.println(tempUser);
+    		
+    		
+    		//setting these parameters so we can save them when we want to submit to the db
     		String URL = req.getParameter("URL");
     		String comedian = req.getParameter("comedian");
     	
     		List<review> allComments = peopleDAO.showComments(URL);
     	
 	    	RequestDispatcher dispatcher = req.getRequestDispatcher("CommentPage.jsp");
+	    	
+	    	//setting the attributes url and comedian to insert into db once form is submitted
 	    	req.setAttribute("URL", URL);
 	    	req.setAttribute("comedian", comedian);
 	    	req.setAttribute("listComments", allComments);
@@ -338,69 +341,7 @@ public class ControlServlet extends HttpServlet {
     	}
     }
     
-    /*
-    private void listPeople(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException, ServletException {
-        List<People> listPeople = peopleDAO.listAllPeople();
-        request.setAttribute("listPeople", listPeople);       
-        RequestDispatcher dispatcher = request.getRequestDispatcher("PeopleList.jsp");       
-        dispatcher.forward(request, response);
-    }
- 
-    // to insert a people
-    private void showNewForm(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
-        RequestDispatcher dispatcher = request.getRequestDispatcher("InsertPeopleForm.jsp");
-        dispatcher.forward(request, response);
-    }
- 
-    // to present an update form to update an  existing Student
-    private void showEditForm(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, ServletException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        People existingPeople = peopleDAO.getPeople(id);
-        RequestDispatcher dispatcher = request.getRequestDispatcher("EditPeopleForm.jsp");
-        request.setAttribute("people", existingPeople);
-        dispatcher.forward(request, response); // The forward() method works at server side, and It sends the same request and response objects to another servlet.
- 
-    }
- 
-    // after the data of a people are inserted, this method will be called to insert the new people into the DB
-    // 
-    private void insertPeople(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
-        String name = request.getParameter("name");
-        String address = request.getParameter("address");
-        String status = request.getParameter("status");
-        People newPeople = new People(name, address, status);
-        peopleDAO.insert(newPeople);
-        response.sendRedirect("list");  // The sendRedirect() method works at client side and sends a new request
-    }
- 
-    private void updatePeople(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        
-        System.out.println(id);
-        String name = request.getParameter("name");
-        String address = request.getParameter("address");
-        String status = request.getParameter("status");
-        
-        System.out.println(name);
-        
-        People people = new People(id,name, address, status);
-        peopleDAO.update(people);
-        response.sendRedirect("list");
-    }
- 
-    private void deletePeople(HttpServletRequest request, HttpServletResponse response)
-            throws SQLException, IOException {
-        int id = Integer.parseInt(request.getParameter("id"));
-        //People people = new People(id);
-        peopleDAO.delete(id);
-        response.sendRedirect("list"); 
-    }
-    */
+    
     
 
 }

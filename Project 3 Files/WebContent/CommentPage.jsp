@@ -67,10 +67,12 @@ body {
 	<br>
 	<form onSubmit="return CheckPasswordEqual(this)" method="post" action="postcomment">
 		
-			<label for="URL"><prompts><b></label></b></prompts> <input type=""
+		<!-- the hidden inputs are for bringing the value of the url and the comedian into the form that we submit when the comment is submitted -->
+		<!-- the values are coming from the servlet through the previous results.jsp page -->
+			<label for="URL"><prompts><b></label></b></prompts> <input type="hidden"
 				id="URL" name="URL" value="${URL}"><br>
 				
-			<label for="comedian"><prompts><b></label></b></prompts> <input type=""
+			<label for="comedian"><prompts><b></label></b></prompts> <input type="hidden"
 				id="URL" name="comedian" value="${comedian}"><br>
 				
 		

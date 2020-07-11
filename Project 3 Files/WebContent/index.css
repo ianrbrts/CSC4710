@@ -1,0 +1,37 @@
+label {
+	display: inline-block;
+	width: 200px;
+	margin-right: 30px;
+	text-align: left;
+}
+
+input {
+	width: 150px;
+	margin: 0px auto;
+}
+
+#submitbtn {
+	display: inline-block;
+	width: 100px;
+}
+
+body {
+	border: 4px solid #ff9900;
+	border-radius: 20px;
+	margin: 5px;
+	padding: 5px;
+	background-color: #006bb3;
+	background-size: 100% 100%;
+}
+
+h1 {
+	color: #ff9900;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+}
+
+h2 {
+	color: #ff9900;
+	margin-block-start: 0;
+	margin-block-end: 5px;
+}

@@ -3,6 +3,3 @@ where not exists (select v2.comedian, count(comedian) from testdb.video v2 havin
 group by comedian
 order by count(comedian) desc
 limit 1  
-
-
-

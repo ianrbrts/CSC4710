@@ -44,7 +44,7 @@ public class PeopleDAO {
             try {
                 Class.forName("com.mysql.jdbc.Driver");
                 connect = (Connection) DriverManager
-        			      .getConnection("jdbc:mysql://localhost:3306/testdb?&useSSL=false&"
+        			      .getConnection("jdbc:mysql://localhost:3306/testdb?&"
         			          + "user=john&password=pass1234");
                 System.out.println("Connection made");
                 statement = connect.createStatement();
@@ -486,6 +486,37 @@ public class PeopleDAO {
     	return comedianList;
     }
     
+    protected List<users> showUserNames() throws SQLException {
+    	createComedianTable();
+        createVideoTable();
+        connect_func();
+        
+        
+        List<users> userList= new ArrayList<users>();  
+        
+        String sql = "SELECT email FROM users";
+        		
+		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);		
+		
+		ResultSet resultSet1 = preparedStatement.executeQuery();
+		
+    	while (resultSet1.next()) {
+            String name = resultSet1.getString("email");            
+          
+            users result= new users(name);
+            userList.add(result);
+        }
+    	
+    	
+		
+		//preparedStatement.executeUpdate();
+		
+    	resultSet1.close();
+    	preparedStatement.close();
+    	
+    	return userList;
+    }
+    
     protected boolean comment(String URL, String username, String rating, String comment, String comedian) throws SQLException {
     	createReviewTable();
         createVideoTable();
@@ -547,6 +578,156 @@ public class PeopleDAO {
     	return reviewList;
         
     }
+
+	protected List<video> sortCool() throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> comedianList = new ArrayList<video>();  
+        
+        String sql = "select distinct comedian\r\n" + 
+        			 "from testdb.review\r\n" + 
+        			 "where comedian not in \r\n" + 
+        			 "	(select distinct comedian from testdb.review t1 \r\n" + 
+        			 "     where t1.rating=\"poor\" or t1.rating=\"fair\" or t1.rating=\"good\")";
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        	
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+		
+    	while (resultSet1.next()) {
+            String comedian = resultSet1.getString("comedian");
+            video comedianName = new video(comedian);
+                    
+            comedianList.add(comedianName);
+            System.out.println(Arrays.toString(comedianList.toArray()));
+        }
+    	
+        
+		return comedianList;
+	}
+	
+	protected List<video> sortNew() throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> comedianList = new ArrayList<video>();  
+        
+        String sql = "select comedian from testdb.video \r\n" + 
+        			 "where date=curdate() AND comedian not in \r\n" + 
+        			 "	(select distinct comedian from testdb.review \r\n" + 
+        			 "     where date != curdate())";
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        	
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+		
+    	while (resultSet1.next()) {
+            String comedian = resultSet1.getString("comedian");
+            video comedianName = new video(comedian);
+                    
+            comedianList.add(comedianName);
+            System.out.println(Arrays.toString(comedianList.toArray()));
+        }
+    	
+        
+		return comedianList;
+	}
+	
+	protected List<video> sortHot() throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> comedianList = new ArrayList<video>();  
+        
+        String sql = "select comedian, count(comedian) as freq from testdb.review\r\n" + 
+        			 "group by comedian\r\n" + 
+        			 "order by count(comedian) desc\r\n" + 
+        			 "limit 3";
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        	
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+		
+    	while (resultSet1.next()) {
+            String comedian = resultSet1.getString("comedian");
+            video comedianName = new video(comedian);
+                    
+            comedianList.add(comedianName);
+            System.out.println(Arrays.toString(comedianList.toArray()));
+        }
+    	
+        
+		return comedianList;
+	}
+	
+	protected List<video> sortCommon(String email1, String email2) throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> comedianList = new ArrayList<video>();
+        
+        String sql = "select distinct comedian from testdb.video \r\n" + 
+	        		"where url in (select url  from testdb.favorite where favorite.email = ? or favorite.email = ? " + 
+	        		"			group by url " + 
+	        		"			having count(distinct email) = 2)";
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, email1);
+        preparedStatement.setString(2, email2);
+        
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		System.out.println("Hello");
+		
+    	while (resultSet1.next()) {
+            String comedian = resultSet1.getString("comedian");
+            video commonComedian = new video(comedian);
+                    
+            comedianList.add(commonComedian);
+            System.out.println(Arrays.toString(comedianList.toArray()));
+        }
+    	
+        
+		return comedianList;
+	}
+
+	
+	//method to take care of the buttons in the sort page
+	public List<video> getComediansVideos(String comedianName)throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> comedianList = new ArrayList<video>();
+        
+        String sql = "select distinct url, title from testdb.video where comedian = ?";
+	        		
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        preparedStatement.setString(1, comedianName);
+        
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		
+    	while (resultSet1.next()) {
+    		System.out.println(comedianName);
+            String URL = resultSet1.getString("URL");
+            String title = resultSet1.getString("title");
+            video comedianURL = new video(URL, title);
+                    
+            comedianList.add(comedianURL);
+            System.out.println(Arrays.toString(comedianList.toArray()));
+        }
+    	
+        
+		return comedianList;
+		
+	}
     
     /*
     public List<People> listAllPeople() throws SQLException {

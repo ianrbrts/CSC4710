@@ -1,6 +1,8 @@
+<%@ page import="java.util.List" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html>
+  <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <link rel="stylesheet" type="text/css" href="index.css">
@@ -51,37 +53,29 @@ body {
 }
 </style>
 <meta charset="ISO-8859-1">
-<title>Login successful!</title>
-<link rel="stylesheet" href="index.css">
+<title>Find ${descriptor}!</title>
+
 </head>
 <body>
-	<br>
-	<h1>You are logged in!</h1>
-	<br>
+	<h1>${descriptor2}</h1>
 	
-	<form method="post" action="gotoinsert">
-		<input type="submit" id="submitbtn" value="Insert Video">
-	</form>
-	
-	<br>
-	<br>
-	<p>Search:</p>
-	
-	<form action="search" method="post">
-		<input type="text" name="params">
-		<input type="submit" id="submitbtn" value="Submit">
-	</form>
-	
-	<br><br>
-	
-	<form action="showfavorites" method="post">
-		<input type="submit" id="submitbtn" value="Go to favorites">
-	</form>
-	
-	<br><br>
-	
-	<form action="showcomedians" method="post">
-		<input type="submit" id="submitbtn" value="Find Comedians">
-	</form>
+	<table border="1" cellpadding="5"; style="margin-left: auto; margin-right:auto;">
+         	<tr>
+                
+                <th>Comedian</th>
+                
+                
+            </tr>
+            
+            <c:forEach var="video" items="${comedianlist}">
+            	<tr>
+                	<td>Name:<c:out value="${video.comedian}"/></td>
+	            </tr>    
+    		</c:forEach>
+    		
+            
+     </table>
+     
+     <br><br>
+     <a href="javascript:history.back()">Go Back</a>
 </body>
-</html>

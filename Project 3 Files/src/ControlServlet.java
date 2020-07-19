@@ -88,6 +88,59 @@ public class ControlServlet extends HttpServlet {
             	deleteFavorite(request,response);
             	break;
             	
+            case "/showcomedians":
+            	showComedians(request,response);
+            	break;
+            	
+            case "/getcomediansvideos":
+            	getComediansVideos(request,response);
+            	break;
+            	
+            case "/cool":
+            	sortCool(request,response);
+            	break;
+            	
+            case "/new":
+            	sortNew(request,response);
+            	break;
+            	
+            case "/hot":
+            	sortHot(request,response);
+            	break;
+            	/*
+            case "/top":
+            	sortTop(request,response);
+            	break;
+            	
+            case "/popular":
+            	sortPop(request,response);
+            	break;
+            	*/
+            case "/commonfav":
+            	goToCommonFav(request,response);
+            	break;
+            
+            case "/showcommonfav":
+            	showCommonFav(request,response);
+            	break;
+            
+            	/*
+            case "/productive":
+            	sortProd(request,response);
+            	break;
+            	
+            case "/positive":
+            	sortPositive(request,response);
+            	break;
+            	
+            case "/poor":
+            	sortPoor(request,response);
+            	break;
+            	
+            case "/twin":
+            	sortTwin(request,response);
+            	break;
+            	*/
             }
         } catch (Exception ex) {
             throw new ServletException(ex);
@@ -95,7 +148,138 @@ public class ControlServlet extends HttpServlet {
     }
     
     
-    protected void signUp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    private void getComediansVideos(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+    		String comedianName = req.getParameter("comedian");
+    		
+    		List<video> comediansVideos = peopleDAO.getComediansVideos(comedianName);
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("comedianlist.jsp");
+	    	req.setAttribute("comedianslist", comediansVideos);
+	    	req.setAttribute("descriptor", "All videos from " + comedianName);
+	    	req.setAttribute("comedianName", comedianName);
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	private void showCommonFav(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+    		String email1 = req.getParameter("userx");
+    		String email2 = req.getParameter("usery");
+    		List<video> comedianList = peopleDAO.sortCommon(email1, email2);
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("showcommonfav.jsp");
+	    	req.setAttribute("comedianlist", comedianList);
+	    	req.setAttribute("descriptor", "Common Favorites");
+	    	req.setAttribute("descriptor2", "The videos that the two users have in common:");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	private void goToCommonFav(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+    		
+    		
+    		List<users> userList = peopleDAO.showUserNames();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("commonfav.jsp");
+	    	req.setAttribute("list", userList);
+	    	req.setAttribute("descriptor", "Common Favorites");
+	    	req.setAttribute("descriptor2", "Select two users to compare favorites:");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	protected void sortHot(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+        	List<video>comedians = peopleDAO.sortHot();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", comedians);
+	    	req.setAttribute("descriptor", "Who's Hot");
+	    	req.setAttribute("descriptor2", "Top 3 Most Reviewed Comedians:");
+	    	dispatcher.forward(req, resp);
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	protected void sortNew(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+        	List<video>comedians = peopleDAO.sortNew();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", comedians);
+	    	req.setAttribute("descriptor", "Who's New");
+	    	req.setAttribute("descriptor2", "Comedians that have videos posted today:");
+	    	dispatcher.forward(req, resp);
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	protected void sortCool(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(tempUser != null) {
+        	List<video>comedians = peopleDAO.sortCool();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", comedians);
+	    	req.setAttribute("descriptor", "Who's Cool");
+	    	req.setAttribute("descriptor2", "Comedians who received some reviews and each of them is rated excellent");
+	    	dispatcher.forward(req, resp);
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	protected void showComedians(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(tempUser != null) {
+    	
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sort.jsp");
+	    	dispatcher.forward(req, resp);
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	protected void signUp(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	
         String username = req.getParameter("email");
         String password = req.getParameter("password1");

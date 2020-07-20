@@ -3,10 +3,9 @@
     pageEncoding="ISO-8859-1"%>
   <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %> 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-
-<html lang="en">
-    <head>
-	    <link rel="stylesheet" type="text/css" href="index.css">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="index.css">
 <style>
 
 label {
@@ -17,8 +16,7 @@ label {
 }
 
 input {
-	
-	width: 300px;
+	width: 200px;
 	margin: 0px auto;
 }
 
@@ -40,7 +38,6 @@ h1 {
 	margin-block-end: 5px;
 }
 prompts {
-	
 	color: #99ccff;
 	margin-block-start: 5px;
 	margin-block-end: 5px;
@@ -55,44 +52,41 @@ body {
 	text-align: center;
 }
 </style>
-	    <meta "charset=UTF-8">
-        <title>Your Favorites</title>
-    </head>
-    <body>
-    	   	
-    	<table align="center" border="1" cellpadding="5">
-            <caption><h1>Your saved Favorites</h1></caption>
-            <tr>
-                
-                <th>URL</th>
-                <th>Title</th>
-                
-                
-            </tr>
-            <c:forEach var="video" items="${listResults}">
+<meta charset="ISO-8859-1">
+<title>Find ${descriptor}!</title>
+
+</head>
+<body >
+<br><br>
+	<h1>Sort by ${descriptor}</h1>
+	<h2>${descriptor2}</h2>
+	
+	<table border="0" cellpadding="5" style="margin-left:auto; margin-right:auto; ">
+
+		<c:forEach var="video" items="${list}" >
+			
+			
                 <tr>
-                    <td><a href="<c:out value="${video.URL}" default="n/a" />">YouTube Link</td>
-                    <td><c:out value="${video.title}" /></td>
-                    
+                    <td>${video.comedian}</td>
+                    <td><a href="${video.URL}">${video.URL}</a></td>
+                    <td>${video.email}</td> <!-- email is a placeholder, can be other things but i keep using one class/constructor for all of these queries so that's what it is -->
+                                        
+                
                     
                     <td>
-	                    <form action="delete" method="post">
-	                    	<input type="hidden" name="URL" value="${video.URL}" >
-	                    	<input type="submit" id="submitbtn" value="delete">
+	                    <form action="twinlist" method="post" id="favoritesbutton">
+	                    	<input type="hidden" name="comedian" id="button" value="${video.comedian}">
+	                    	<input type="submit" id="submitbtn" value="${buttonlabel2}">
 	                 	</form>  
                     </td>
                     
-                    
-                    
+                   <br>
                    
                 </tr>
-            </c:forEach>
-        </table>
-    	
-    	<br>
-        <br>
-        <a href="javascript:history.back()">Go Back</a>
-    	
-    	
-    </body>
-</html>
+        </c:forEach>
+	</table>
+	<br>
+	<a href="javascript:history.back()">Go Back</a>
+	<br>
+	
+</body>

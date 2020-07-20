@@ -58,17 +58,29 @@ body {
 </head>
 <body>
 	<table border="1" cellpadding="5"; style="margin-left: auto; margin-right:auto;">
-            <caption><h1>List of ${comedianName}'s videos!</h1></caption>
+		<caption><h1>List of ${placement} ${comedianName}'s videos!</h1></caption>
             <tr>
                 
                 <th>URL</th>
                 <th>Title</th>
                 
             </tr>
+           
             <c:forEach var="video" items="${comedianslist}">
+            
+             
                 <tr>
                     <td><a href="<c:out value="${video.URL}" default="n/a" />">YouTube Link</td>
                     <td><c:out value="${video.email}" /></td>
+                                        
+                    
+     		</c:forEach>
+     		
+     		<c:forEach var="video" items="${favoriteslist}">
+                <tr>
+                    <td><a href="<c:out value="${video.URL}" default="n/a" />">YouTube Link</td>
+                    <td><c:out value="${video.email}" /></td>
+                    <td><c:out value="${video.title}" /></td>
                                         
                     
      		</c:forEach>

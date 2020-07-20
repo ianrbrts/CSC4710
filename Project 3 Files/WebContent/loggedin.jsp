@@ -78,10 +78,5 @@ body {
 		<input type="submit" id="submitbtn" value="Go to favorites">
 	</form>
 	
-	<br><br>
-	
-	<form action="showcomedians" method="post">
-		<input type="submit" id="submitbtn" value="Find Comedians">
-	</form>
 </body>
 </html>

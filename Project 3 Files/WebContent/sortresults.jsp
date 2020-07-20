@@ -56,23 +56,27 @@ body {
 <title>Find ${descriptor}!</title>
 
 </head>
-<body>
+<body >
 <br><br>
 	<h1>Sort by ${descriptor}</h1>
 	<h2>${descriptor2}</h2>
 	
-	<table style="margin-left:auto; margin-right:auto; border: 4px solid #ff9900; border-radius: 20px; padding: 5px;">
-		
-		<c:forEach var="video" items="${list}">
+	<table border="0" cellpadding="5" style="margin-left:auto; margin-right:auto; ">
+
+		<c:forEach var="video" items="${list}" >
+					
                 <tr>
-                    <td><prompts>${video.comedian}</prompts></td>
+                    <td>${video.comedian}</td>
+                    <td><a href="${video.URL}">${video.URL}</a></td>
+                    <td>${video.email}</td> <!-- email is a placeholder, can be other things but i keep using one class/constructor for all of these queries so that's what it is -->
                                         
                     <td>
 	                    <form action="getcomediansvideos" method="post">
-	                    	<input type="hidden" name="comedian" value="${video.comedian}">
-	                    	<input type="submit" id="submitbtn" value="Videos">
+	                    	<input type="hidden" name="comedian" id="button" value="${video.comedian}">
+	                    	<input type="submit" id="submitbtn" value="${buttonlabel}">
 	                 	</form>  
                     </td>
+                    
                     
                    <br>
                    
@@ -82,5 +86,5 @@ body {
 	<br>
 	<a href="javascript:history.back()">Go Back</a>
 	<br>
-	
+	<div onload="return hideForm(${status})"></div>
 </body>

@@ -267,7 +267,43 @@ public class PeopleDAO {
     public boolean dropTables() throws SQLException{
     	connect_func();
     	
-    	String sql = "DROP TABLE users";
+    	String drop1 = "DROP TABLE IF EXISTS review";
+    	String drop2 = "DROP TABLE IF EXISTS video";
+    	String drop3 = "DROP TABLE IF EXISTS favorite";
+    	String drop4 = "DROP TABLE IF EXISTS users";
+    	
+    	
+    	String createFavorite = "CREATE TABLE IF NOT EXISTS `favorite` (" + 
+    							"  `URL` varchar(255) NOT NULL," + 
+    							"  `email` varchar(255) NOT NULL," + 
+    							"  `favid` int NOT NULL AUTO_INCREMENT," + 
+    							"  PRIMARY KEY (`favid`))";
+    	
+    	String createReview = "CREATE TABLE IF NOT EXISTS `review` (\r\n" + 
+    							"  `reviewid` int NOT NULL AUTO_INCREMENT,\r\n" + 
+    							"  `comment` varchar(255) NOT NULL,\r\n" + 
+    							"  `rating` varchar(100) NOT NULL,\r\n" + 
+    							"  `URL` varchar(255) NOT NULL,\r\n" + 
+    							"  `email` varchar(255) NOT NULL,\r\n" + 
+    							"  `comedian` varchar(45) NOT NULL,\r\n" + 
+    							"  PRIMARY KEY (`reviewid`),\r\n" + 
+    							"  KEY `URL` (`URL`),\r\n" + 
+    							"  KEY `email` (`email`),\r\n" + 
+    							"  CONSTRAINT `review_ibfk_1` FOREIGN KEY (`URL`) REFERENCES `video` (`URL`),\r\n" + 
+    							"  CONSTRAINT `review_ibfk_2` FOREIGN KEY (`email`) REFERENCES `users` (`email`))";
+    	
+    	String createVideo = "CREATE TABLE IF NOT EXISTS `video` (\r\n" + 
+    						 "  `URL` varchar(255) NOT NULL,\r\n" + 
+    						 "  `title` varchar(100) NOT NULL,\r\n" + 
+    						 "  `description` varchar(100) NOT NULL,\r\n" + 
+    						 "  `tags` varchar(100) NOT NULL,\r\n" + 
+    						 "  `email` varchar(255) DEFAULT NULL,\r\n" + 
+    						 "  `date` date DEFAULT NULL,\r\n" + 
+    						 "  `comedian` varchar(255) DEFAULT NULL,\r\n" + 
+    						 "  PRIMARY KEY (`URL`),\r\n" + 
+    						 "  KEY `email` (`email`)\r\n" + 
+    						 ") ";
+    	
        	String sql2 = "INSERT INTO users (email, password, fname, lname, age) values "+
        	    			"('Johncon97@gmail.com', 'temppass1', 'John', 'Con', '20')," +
        	    			"('TedJ2@gmail.com', 'temppass2', 'Ted', 'Jaco', '23')," +
@@ -280,10 +316,39 @@ public class PeopleDAO {
        	    			"('Jessichar@gmail.com', 'temppass9', 'Jessica', 'Harland', '20')," +
        	    			"('Tylerww@gmail.com', 'temppass10', 'Tyler', 'Walia', '52')," +
        	    			"('admin@root.com', '1234', 'root', 'admin', '100')";
+       	
+       	String sql3 = "INSERT INTO video (URL, title, description, tags, email, date, comedian) values "+
+	    			"('https://www.youtube.com/watch?v=j2D4BelPffUc', 'Best Of: Bill Burr | Netflix Is A Joke', 'Bill Burr comedy','funny', 'TedJ2@gmail.com', curdate(),'Bill Burr')," +
+	    			"('https://www.youtube.com/watch?v=t2fgzC8jqp8', '33 Minutes of JOHN MULANEY', 'John Mulaney comedy','funny',  'RickJ@gmail.com', curdate(),'John Mulaney')," +
+	    			"('https://www.youtube.com/watch?v=H6dmAEkapGg', 'Eddie Murphy - Standup', 'Funny stuff', 'Funny', 'RickJ@gmail.com', curdate(), 'Eddie Murphy'\r\n) ," + 
+	    			"('https://www.youtube.com/watch?v=quZU_hA4Pr4', 'John Mulaney: “Canceling Plans Is Like Heroin”', 'John Mulaney bit',	'john mulaney funny',  'SallyT@gmail.com', curdate(),'John Mulaney')," +
+	    			"('https://www.youtube.com/watch?v=Hy-sVByUHqE', 'The Best of George Carlin', 'George Carlin all time','george carlin funny', 'TedJ2@gmail.com', curdate(),'Bill Burr')";
+       	
+       	String sql4 = "INSERT INTO review (reviewid, comment, rating, URL, email, comedian) values "+
+	    			"(1, 'Very funny video', 'excellent', 'https://www.youtube.com/watch?v=j2D4BelPffUc', 'BethS@gmail.com', 'Bill Burr')," +
+	    			"(2, 'It is okay, not great', 'fair', 'https://www.youtube.com/watch?v=quZU_hA4Pr4', 'Jessichar@gmail.com', 'John Mulaney')," +
+	    			"(3, 'Not very funny', 'poor', 'https://www.youtube.com/watch?v=Hy-sVByUHqE', 'Tylerww@gmail.com', 'George Carlin')," +
+	    			"(4, 'Very good, super funny', 'excellent', 'https://www.youtube.com/watch?v=quZU_hA4Pr4', 'Johncon97@gmail.com', 'John Mulaney')," + 
+	    			"(5, 'I didnt like this', 'poor', 'https://www.youtube.com/watch?v=j2D4BelPffUc', 'Johncon97@gmail.com', 'Bill Burr')";
+       	
+       	String sql5 = "INSERT INTO favorite (URL, email, favid) values "+
+	    			"('https://www.youtube.com/watch?v=j2D4BelPffUc', 'BethS@gmail.com', 1)," +
+	    			"('https://www.youtube.com/watch?v=t2fgzC8jqp8', 'BethS@gmail.com', 2),"
+	    			+ "('https://www.youtube.com/watch?v=j2D4BelPffUc', 'Tedj2@gmail.com', 3),"
+	    			+ "('https://www.youtube.com/watch?v=t2fgzC8jqp8', 'TedJ2@gmail.com', 4),"
+	    			+ "('https://www.youtube.com/watch?v=quZU_hA4Pr4', 'ThomasTheo@gmail.com', 5),"
+	    			+ "('https://www.youtube.com/watch?v=Hy-sVByUHqE', 'Johncon97@gmail.com', 6)";
+	    			
+       	
+       	
+       	
      			
     	
-    	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-    	preparedStatement.executeUpdate();
+    	statement.execute(drop1);
+    	statement.execute(drop2);
+    	statement.execute(drop3);
+    	statement.execute(drop4);
+    	
         statement.execute("CREATE TABLE IF NOT EXISTS users(" +
     			"email VARCHAR(255) NOT NULL," +
     			"password VARCHAR(100) NOT NULL,"+
@@ -292,12 +357,28 @@ public class PeopleDAO {
     			"age INT," +
     			"PRIMARY KEY (email)"+
     			")");
+        statement.execute(sql2);
+        System.out.println("Users table made again");
+        
+        statement.execute(createVideo);
+        System.out.println("Video table made again");
 
-        System.out.println("Table made again");
-    	statement.execute(sql2);
-    	
-    	
-    	
+        statement.execute(createReview);
+        System.out.println("review table made again");
+        
+        statement.execute(createFavorite);
+        System.out.println("Favorite table made again");
+                
+        statement.execute(sql3);
+        System.out.println("Video data added");
+        
+        statement.execute(sql4);
+        System.out.println("Review data added");
+        
+        statement.execute(sql5);
+        System.out.println("favorite data added");
+        
+     
     	return true;
     }
     
@@ -601,7 +682,7 @@ public class PeopleDAO {
             video comedianName = new video(comedian);
                     
             comedianList.add(comedianName);
-            System.out.println(Arrays.toString(comedianList.toArray()));
+
         }
     	
         
@@ -629,7 +710,6 @@ public class PeopleDAO {
             video comedianName = new video(comedian);
                     
             comedianList.add(comedianName);
-            System.out.println(Arrays.toString(comedianList.toArray()));
         }
     	
         
@@ -657,7 +737,6 @@ public class PeopleDAO {
             video comedianName = new video(comedian);
                     
             comedianList.add(comedianName);
-            System.out.println(Arrays.toString(comedianList.toArray()));
         }
     	
         
@@ -689,7 +768,6 @@ public class PeopleDAO {
             video commonComedian = new video(comedian);
                     
             comedianList.add(commonComedian);
-            System.out.println(Arrays.toString(comedianList.toArray()));
         }
     	
         
@@ -705,11 +783,13 @@ public class PeopleDAO {
         
         List<video> comedianList = new ArrayList<video>();
         
-        String sql = "select distinct url, title from testdb.video where comedian = ?";
+        String sql = "select distinct url, title from testdb.video where comedian = ? or tags = ? or email=?";
 	        		
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
         preparedStatement.setString(1, comedianName);
+        preparedStatement.setString(2, comedianName);
+        preparedStatement.setString(3, comedianName);
         
         ResultSet resultSet1 = preparedStatement.executeQuery();
         
@@ -721,110 +801,180 @@ public class PeopleDAO {
             video comedianURL = new video(URL, title);
                     
             comedianList.add(comedianURL);
-            System.out.println(Arrays.toString(comedianList.toArray()));
         }
     	
         
 		return comedianList;
 		
 	}
-    
-    /*
-    public List<People> listAllPeople() throws SQLException {
-        List<People> listPeople = new ArrayList<People>();        
-        String sql = "SELECT * FROM student";      
-        connect_func();      
-        statement =  (Statement) connect.createStatement();
-        ResultSet resultSet = statement.executeQuery(sql);
-         
-        while (resultSet.next()) {
-            int id = resultSet.getInt("id");
-            String name = resultSet.getString("name");
-            String address = resultSet.getString("address");
-            String status = resultSet.getString("status");
-             
-            People people = new People(id,name, address, status);
-            listPeople.add(people);
-        }        
-        resultSet.close();
-        statement.close();         
-        disconnect();        
-        return listPeople;
-    }
-    
-    protected void disconnect() throws SQLException {
-        if (connect != null && !connect.isClosed()) {
-        	connect.close();
-        }
-    }
-         
-    public boolean insert(People people) throws SQLException {
-    	connect_func();         
-		String sql = "insert into  student(Name, Address, Status) values (?, ?, ?)";
-		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-		preparedStatement.setString(1, people.name);
-		preparedStatement.setString(2, people.address);
-		preparedStatement.setString(3, people.status);
-//		preparedStatement.executeUpdate();
-		
-        boolean rowInserted = preparedStatement.executeUpdate() > 0;
-        preparedStatement.close();
-//        disconnect();
-        return rowInserted;
-    }     
-     
-    public boolean delete(int peopleid) throws SQLException {
-        String sql = "DELETE FROM student WHERE id = ?";        
-        connect_func();
-         
-        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, peopleid);
-         
-        boolean rowDeleted = preparedStatement.executeUpdate() > 0;
-        preparedStatement.close();
-//        disconnect();
-        return rowDeleted;     
-    }
-     
-    public boolean update(People people) throws SQLException {
-        String sql = "update student set Name=?, Address =?,Status = ? where id = ?";
+
+	//method to return a list of the top comedians
+	public List<video> getTopComedian() throws SQLException{
+		createReviewTable();
+        createVideoTable();
         connect_func();
         
+        List<video> topComedians = new ArrayList<video>();
+        
+        String sql = "select distinct t1.comedian \r\n" + 
+        			 "from testdb.video t1\r\n" + 
+        			 "group by comedian \r\n" + 
+        			 "order by count(comedian) desc \r\n" + 
+        			 "limit 1";
+	        		
+        
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setString(1, people.name);
-        preparedStatement.setString(2, people.address);
-        preparedStatement.setString(3, people.status);
-        preparedStatement.setInt(4, people.id);
-         
-        boolean rowUpdated = preparedStatement.executeUpdate() > 0;
-        preparedStatement.close();
-//        disconnect();
-        return rowUpdated;     
-    }
-	
-    public People getPeople(int id) throws SQLException {
-    	People people = null;
-        String sql = "SELECT * FROM student WHERE id = ?";
-         
-        connect_func();
-         
-        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
-        preparedStatement.setInt(1, id);
-         
-        ResultSet resultSet = preparedStatement.executeQuery();
-         
-        if (resultSet.next()) {
-            String name = resultSet.getString("name");
-            String address = resultSet.getString("address");
-            String status = resultSet.getString("status");
-             
-            people = new People(id, name, address, status);
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		
+    	while (resultSet1.next()) {
+            String topComedian = resultSet1.getString("comedian");
+            video topComedianObj = new video(topComedian);
+                    
+            topComedians.add(topComedianObj);
         }
-         
-        resultSet.close();
-        statement.close();
-         
-        return people;
-    }
-    */
+    	
+        
+		return topComedians;
+	}
+
+	public List<video> getPopTags() throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> popTags = new ArrayList<video>();
+        
+        String sql = "select distinct tags \r\n" + 
+        			 "from testdb.video \r\n" + 
+        			 "group by tags\r\n" + 
+        			 "having count(distinct email) = (select count(distinct email) - 1 from testdb.users)";
+	        		
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		
+    	while (resultSet1.next()) {
+            String tags= resultSet1.getString("tags");
+            video tagobj = new video(tags); //tags will be accessed with comedian because of the constructor
+                    
+            popTags.add(tagobj);
+        }
+    	
+        
+		return popTags;
+	}
+
+	public List<video> getProductiveEmail() throws SQLException{
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> productiveUser = new ArrayList<video>();
+        
+        String sql = "select distinct email, count(email) as freq from testdb.video\r\n" + 
+        			 "group by email\r\n" + 
+        			 "order by freq desc\r\n" + 
+        			 "limit 1 ";
+	        		
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		
+    	while (resultSet1.next()) {
+            String user = resultSet1.getString("email");
+            video emailobj = new video(user); //tags will be accessed with comedian because of the constructor
+                    
+            productiveUser.add(emailobj);
+        }
+    	
+        
+		return productiveUser;
+	}
+
+	public List<video> getPositiveReviewers() throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> positiveReviewers = new ArrayList<video>();
+        
+        String sql = "select distinct email from testdb.review\r\n" + 
+        			 "where email not in (select email from testdb.review where rating=\"poor\" or rating=\"fair\")";
+	        		
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		
+    	while (resultSet1.next()) {
+            String posReviewer = resultSet1.getString("email");
+            video reviewerobj = new video(posReviewer); //tags will be accessed with comedian because of the constructor
+                    
+            positiveReviewers.add(reviewerobj);
+        }
+    	
+        
+		return positiveReviewers;
+	}
+
+	public List<video> getPoorVideos()  throws SQLException{
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> poorVideos = new ArrayList<video>();
+        
+        String sql = "select distinct review.url, video.title from testdb.review, testdb.video\r\n" + 
+        			 "where video.url = review.url and review.url not in (select url from testdb.review where rating=\"excellent\" or rating=\"fair\" or rating=\"good\")";
+	        		
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		
+    	while (resultSet1.next()) {
+            String poorvideo = resultSet1.getString("url");
+            String poortitle = resultSet1.getString("title");
+            video poorReview = new video(poorvideo, poortitle); //tags will be accessed with comedian because of the constructor
+                    
+            poorVideos.add(poorReview);
+        }
+    	
+        
+		return poorVideos;
+	}
+
+	public List<video> getTwinUsers()throws SQLException {
+		createReviewTable();
+        createVideoTable();
+        connect_func();
+        
+        List<video> twinEmails = new ArrayList<video>();
+        
+        String sql = "select distinct t1.email, length(group_concat(t1.url))from testdb.favorite t1\r\n" + 
+        			 "group by email\r\n" + 
+        			 "having length(group_concat(t1.url)) = any (select length(group_concat(t2.url)) from testdb.favorite t2 where t2.email != t1.email group by email)\r\n" + 
+        			 "order by length(group_concat(url)) desc "
+        			 + "limit 2";
+	        		
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
+        ResultSet resultSet1 = preparedStatement.executeQuery();
+        
+		
+    	while (resultSet1.next()) {
+            String twinEmail= resultSet1.getString("email");
+            video twinObj = new video(twinEmail); //tags will be accessed with comedian because of the constructor
+                    
+            twinEmails.add(twinObj);
+        }
+    	
+        
+		return twinEmails;
+	}
+    
+   
 }

@@ -15,6 +15,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 import java.sql.PreparedStatement;
+import java.util.ArrayList;
  
 /**
  * ControllerServlet.java
@@ -107,7 +108,7 @@ public class ControlServlet extends HttpServlet {
             case "/hot":
             	sortHot(request,response);
             	break;
-            	/*
+            	
             case "/top":
             	sortTop(request,response);
             	break;
@@ -115,7 +116,7 @@ public class ControlServlet extends HttpServlet {
             case "/popular":
             	sortPop(request,response);
             	break;
-            	*/
+            	
             case "/commonfav":
             	goToCommonFav(request,response);
             	break;
@@ -124,7 +125,7 @@ public class ControlServlet extends HttpServlet {
             	showCommonFav(request,response);
             	break;
             
-            	/*
+            	
             case "/productive":
             	sortProd(request,response);
             	break;
@@ -140,15 +141,186 @@ public class ControlServlet extends HttpServlet {
             case "/twin":
             	sortTwin(request,response);
             	break;
-            	*/
+            	
+            case "/twinlist":
+            	twinLists(request,response);
+            	break;
+            	
             }
         } catch (Exception ex) {
             throw new ServletException(ex);
         }
     }
     
+    private void twinLists(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+    		
+    		List<video> results = new ArrayList<video>();
+    		List<video> twinUsers = peopleDAO.getTwinUsers();
+    		String name1 = twinUsers.get(0).toString();
+    		String name2 = twinUsers.get(1).toString();
+    		
+    		for(int i=0;i<2;i++) {
+    			results = peopleDAO.showFavorite(twinUsers.get(i).toString());
+    		}
+    		
+        	
+    		/*
+        	RequestDispatcher dispatcher = req.getRequestDispatcher("favorites.jsp");
+        	req.setAttribute("listResults", results);
+        	dispatcher.forward(req, resp);
+    		*/
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("comedianlist.jsp");
+	    	req.setAttribute("favoriteslist", results);
+	    	req.setAttribute("placement", "favorite");
+	    	req.setAttribute("descriptor", "Twins");
+	    	req.setAttribute("descriptor2", "Sorting by two users that have the same favorite lists!");
+	    	req.setAttribute("buttonlabel", "User's videos");
+	    	
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
     
-    private void getComediansVideos(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
+    
+    private void sortTwin(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+    		
+    		
+    		List<video> twinUsers = peopleDAO.getTwinUsers();
+    		
+        	
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("favoriteslistresults.jsp");
+	    	req.setAttribute("list", twinUsers);
+	    	req.setAttribute("status", 0);
+	    	req.setAttribute("descriptor", "Twins");
+	    	req.setAttribute("descriptor2", "Sorting by two users that have the same favorite lists!");
+	    	req.setAttribute("buttonlabel", "Uploaded Videos");
+	    	req.setAttribute("buttonlabel2", "User's Favorites");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	private void sortPoor(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(tempUser != null) {
+    		
+    		List<video> poorVideos = peopleDAO.getPoorVideos();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", poorVideos);
+	    	req.setAttribute("descriptor", "Who's Poor");
+	    	req.setAttribute("descriptor2", "Sorting by the videos that only have poor ratings!");
+	    	req.setAttribute("buttonlabel", "Videos");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	private void sortPositive(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
+    	if(tempUser != null) {
+    		
+    		List<video> positiveReviewers = peopleDAO.getPositiveReviewers();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", positiveReviewers);
+	    	req.setAttribute("descriptor", "Who's Positive");
+	    	req.setAttribute("descriptor2", "Sorting by the users that give the most positive reviews!");
+	    	req.setAttribute("buttonlabel", "Videos");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+		
+	}
+
+	private void sortProd(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
+		if(tempUser != null) {
+    		
+    		List<video> productiveEmail = peopleDAO.getProductiveEmail();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", productiveEmail);
+	    	req.setAttribute("descriptor", "Who's Productive");
+	    	req.setAttribute("descriptor2", "Sorting by the most active user(s) on the site!");
+	    	req.setAttribute("buttonlabel", "Videos");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	private void sortPop(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+    		
+    		List<video> popTags = peopleDAO.getPopTags();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", popTags);
+	    	req.setAttribute("descriptor", "Popular Tags");
+	    	req.setAttribute("descriptor2", "Sorting by the most used tags on the site!");
+	    	req.setAttribute("buttonlabel", "Videos");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	private void sortTop(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
+    	if(tempUser != null) {
+    		
+    		List<video> topComedian = peopleDAO.getTopComedian();
+    		
+	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
+	    	req.setAttribute("list", topComedian);
+	    	req.setAttribute("descriptor", "Who's Top");
+	    	req.setAttribute("descriptor2", "Sorting by the comedian(s) with the most YouTube videos!");
+	    	req.setAttribute("buttonlabel", "Videos");
+	    	dispatcher.forward(req, resp);
+	    	
+    	}
+    	else {
+    		
+    		RequestDispatcher dispatcher = req.getRequestDispatcher("login.jsp");
+    		dispatcher.forward(req, resp);
+    	}
+		
+	}
+
+	private void getComediansVideos(HttpServletRequest req, HttpServletResponse resp)throws ServletException, IOException, SQLException {
     	if(tempUser != null) {
     		String comedianName = req.getParameter("comedian");
     		
@@ -158,6 +330,7 @@ public class ControlServlet extends HttpServlet {
 	    	req.setAttribute("comedianslist", comediansVideos);
 	    	req.setAttribute("descriptor", "All videos from " + comedianName);
 	    	req.setAttribute("comedianName", comedianName);
+	    	req.setAttribute("buttonlabel", "Videos");
 	    	dispatcher.forward(req, resp);
 	    	
     	}
@@ -179,6 +352,7 @@ public class ControlServlet extends HttpServlet {
 	    	req.setAttribute("comedianlist", comedianList);
 	    	req.setAttribute("descriptor", "Common Favorites");
 	    	req.setAttribute("descriptor2", "The videos that the two users have in common:");
+	    	req.setAttribute("buttonlabel", "Videos");
 	    	dispatcher.forward(req, resp);
 	    	
     	}
@@ -200,6 +374,7 @@ public class ControlServlet extends HttpServlet {
 	    	req.setAttribute("list", userList);
 	    	req.setAttribute("descriptor", "Common Favorites");
 	    	req.setAttribute("descriptor2", "Select two users to compare favorites:");
+	    	req.setAttribute("buttonlabel", "Videos");
 	    	dispatcher.forward(req, resp);
 	    	
     	}
@@ -219,6 +394,7 @@ public class ControlServlet extends HttpServlet {
 	    	req.setAttribute("list", comedians);
 	    	req.setAttribute("descriptor", "Who's Hot");
 	    	req.setAttribute("descriptor2", "Top 3 Most Reviewed Comedians:");
+	    	req.setAttribute("buttonlabel", "Videos");
 	    	dispatcher.forward(req, resp);
     	}
     	else {
@@ -237,6 +413,7 @@ public class ControlServlet extends HttpServlet {
 	    	req.setAttribute("list", comedians);
 	    	req.setAttribute("descriptor", "Who's New");
 	    	req.setAttribute("descriptor2", "Comedians that have videos posted today:");
+	    	req.setAttribute("buttonlabel", "Videos");
 	    	dispatcher.forward(req, resp);
     	}
     	else {
@@ -255,6 +432,7 @@ public class ControlServlet extends HttpServlet {
 	    	req.setAttribute("list", comedians);
 	    	req.setAttribute("descriptor", "Who's Cool");
 	    	req.setAttribute("descriptor2", "Comedians who received some reviews and each of them is rated excellent");
+	    	req.setAttribute("buttonlabel", "Videos");
 	    	dispatcher.forward(req, resp);
     	}
     	else {
@@ -328,7 +506,7 @@ public class ControlServlet extends HttpServlet {
     
     protected void dropTables(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException, SQLException{
     	if(peopleDAO.dropTables()) {
-    		System.out.println("Table Dropped");
+    		System.out.println("Tables Dropped");
     		resp.sendRedirect("welcome.jsp");
     	}
     }

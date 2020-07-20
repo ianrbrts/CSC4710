@@ -93,11 +93,7 @@ public class video {
 	    }
 	 
 	    public String toString() {
-	        return ("URL:"+this.getURL()+
-	                    " Title: "+ this.getTitle() +
-	                    " Description: "+ this.getDescription() +
-	                    " Email: " + this.getEmail() +
-	                    " Tags : " + this.getTags());
+	        return (this.getComedian());
 	   }
 	
 }

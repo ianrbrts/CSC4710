@@ -1,2 +1,2 @@
-select url from testdb.review 
-where rating="poor"
+select distinct review.url, video.title from testdb.review, testdb.video
+where video.url = review.url and review.url not in (select url from testdb.review where rating="excellent" or rating="fair" or rating="good")

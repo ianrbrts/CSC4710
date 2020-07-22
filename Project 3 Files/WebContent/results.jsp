@@ -102,7 +102,7 @@ body {
         </table>
         <br>
         <br>
-        <a href="loggedin.jsp">Back to Home</a>
+        <a href="javascript:history.back()">Go Back</a>
     </div>
      
 	</body>

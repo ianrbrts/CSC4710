@@ -72,7 +72,7 @@ body {
                                         
                     <td>
 	                    <form action="getcomediansvideos" method="post">
-	                    	<input type="hidden" name="comedian" id="button" value="${video.comedian}">
+	                    	<input type="hidden" name="comedian" id="button" value="${video.comedian}"><!-- comedian is also a placeholder for the first value in constructor -->
 	                    	<input type="submit" id="submitbtn" value="${buttonlabel}">
 	                 	</form>  
                     </td>
@@ -86,5 +86,5 @@ body {
 	<br>
 	<a href="javascript:history.back()">Go Back</a>
 	<br>
-	<div onload="return hideForm(${status})"></div>
+	
 </body>

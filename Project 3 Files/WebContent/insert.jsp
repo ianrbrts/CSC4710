@@ -94,7 +94,7 @@ body {
         
         <br>
         
-        <a href="loggedin.jsp">Back to home</a>
+        <a href="javascript:history.back()">Go Back</a>
         
         
         

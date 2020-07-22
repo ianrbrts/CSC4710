@@ -319,17 +319,25 @@ public class PeopleDAO {
        	
        	String sql3 = "INSERT INTO video (URL, title, description, tags, email, date, comedian) values "+
 	    			"('https://www.youtube.com/watch?v=j2D4BelPffUc', 'Best Of: Bill Burr | Netflix Is A Joke', 'Bill Burr comedy','funny', 'TedJ2@gmail.com', curdate(),'Bill Burr')," +
-	    			"('https://www.youtube.com/watch?v=t2fgzC8jqp8', '33 Minutes of JOHN MULANEY', 'John Mulaney comedy','funny',  'RickJ@gmail.com', curdate(),'John Mulaney')," +
+	    			"('https://www.youtube.com/watch?v=t2fgzC8jqp8', '33 Minutes of JOHN MULANEY', 'John Mulaney comedy','funny',  'TedJ2@gmail.com', curdate(),'John Mulaney')," +
 	    			"('https://www.youtube.com/watch?v=H6dmAEkapGg', 'Eddie Murphy - Standup', 'Funny stuff', 'Funny', 'RickJ@gmail.com', curdate(), 'Eddie Murphy'\r\n) ," + 
-	    			"('https://www.youtube.com/watch?v=quZU_hA4Pr4', 'John Mulaney: “Canceling Plans Is Like Heroin”', 'John Mulaney bit',	'john mulaney funny',  'SallyT@gmail.com', curdate(),'John Mulaney')," +
-	    			"('https://www.youtube.com/watch?v=Hy-sVByUHqE', 'The Best of George Carlin', 'George Carlin all time','george carlin funny', 'TedJ2@gmail.com', curdate(),'Bill Burr')";
+	    			"('https://www.youtube.com/watch?v=quZU_hA4Pr4', 'John Mulaney: “Canceling Plans Is Like Heroin”', 'John Mulaney bit',	'funny',  'SallyT@gmail.com', curdate(),'John Mulaney')," +
+	    			"('https://www.youtube.com/watch?v=Hy-sVByUHqE', 'The Best of George Carlin', 'George Carlin all time','george carlin funny', 'TedJ2@gmail.com', curdate(),'Bill Burr'),"
+	    			+ "('https://www.youtube.com/watch?v=Vn6MHmDo_Ck', 'Bill Burr - Breaking bad | Full standup special', 'Bill Burr','funny', 'Johncon97@gmail.com', curdate(),'Bill Burr'),"
+	    			+ "('https://www.youtube.com/watch?v=8f-4etve2t0', 'Bill Burr Most Funny Standup Jokes Savage Moments', 'Bill burr', 'funny', 'JackLi@gmail.com', curdate(),'Bill Burr'),"
+	    			+ "('https://www.youtube.com/watch?v=FA4kxlObK9Q', 'Jerry Seinfeld Compares Married Men To Game Show Losers', 'Jerry sienfeld','funny', 'JerrysTe@gmail.com', curdate(),'Jerry Seinfeld'),"
+	    			+ "('https://www.youtube.com/watch?v=VuTMc3MbbXo', 'Jerry Seinfeld Live Chicago', 'Jerry','funny', 'BethS@gmail.com', curdate(),'Jerry Seinfeld'),"
+	    			+ "('https://www.youtube.com/watch?v=73mWXVa12_c', 'Robin Williams Live On Broadway New York 2002', 'Robin Williams','funny', 'ThomasTheo@gmail.com', curdate(),'Robin Williams'),"
+	    			+ "('https://www.youtube.com/watch?v=R0t7gFSW5aQ', 'The ULTIMATE Robin Williams COMPILATION', 'Robin williams funny stuff', 'funny', 'Jessichar@gmail.com', curdate(),'Robin Williams'),"
+	    			+ "('https://www.youtube.com/watch?v=8yOWjkAxrwE', 'Eddie Murphys Delirous Part 10 ', 'Eddie murphy bit','funny', 'Tylerww@gmail.com', curdate(),'Eddie Murphy'),"
+	    			+ "('https://www.youtube.com/watch?v=whfQf3Pd5bU', 'Eddie Murphys SNL', 'Eddie murphy bit','funny', 'ianrbrts42@gmail.com', curdate(),'Eddie Murphy')";
        	
        	String sql4 = "INSERT INTO review (reviewid, comment, rating, URL, email, comedian) values "+
 	    			"(1, 'Very funny video', 'excellent', 'https://www.youtube.com/watch?v=j2D4BelPffUc', 'BethS@gmail.com', 'Bill Burr')," +
 	    			"(2, 'It is okay, not great', 'fair', 'https://www.youtube.com/watch?v=quZU_hA4Pr4', 'Jessichar@gmail.com', 'John Mulaney')," +
 	    			"(3, 'Not very funny', 'poor', 'https://www.youtube.com/watch?v=Hy-sVByUHqE', 'Tylerww@gmail.com', 'George Carlin')," +
 	    			"(4, 'Very good, super funny', 'excellent', 'https://www.youtube.com/watch?v=quZU_hA4Pr4', 'Johncon97@gmail.com', 'John Mulaney')," + 
-	    			"(5, 'I didnt like this', 'poor', 'https://www.youtube.com/watch?v=j2D4BelPffUc', 'Johncon97@gmail.com', 'Bill Burr')";
+	    			"(5, 'I like this', 'excellent', 'https://www.youtube.com/watch?v=j2D4BelPffUc', 'Johncon97@gmail.com', 'Bill Burr')";
        	
        	String sql5 = "INSERT INTO favorite (URL, email, favid) values "+
 	    			"('https://www.youtube.com/watch?v=j2D4BelPffUc', 'BethS@gmail.com', 1)," +
@@ -337,7 +345,7 @@ public class PeopleDAO {
 	    			+ "('https://www.youtube.com/watch?v=j2D4BelPffUc', 'Tedj2@gmail.com', 3),"
 	    			+ "('https://www.youtube.com/watch?v=t2fgzC8jqp8', 'TedJ2@gmail.com', 4),"
 	    			+ "('https://www.youtube.com/watch?v=quZU_hA4Pr4', 'ThomasTheo@gmail.com', 5),"
-	    			+ "('https://www.youtube.com/watch?v=Hy-sVByUHqE', 'Johncon97@gmail.com', 6)";
+	    			+ "('https://www.youtube.com/watch?v=j2D4BelPffUc', 'Johncon97@gmail.com', 6)";
 	    			
        	
        	
@@ -696,7 +704,7 @@ public class PeopleDAO {
         
         List<video> comedianList = new ArrayList<video>();  
         
-        String sql = "select comedian from testdb.video \r\n" + 
+        String sql = "select distinct comedian from testdb.video \r\n" + 
         			 "where date=curdate() AND comedian not in \r\n" + 
         			 "	(select distinct comedian from testdb.review \r\n" + 
         			 "     where date != curdate())";
@@ -816,11 +824,14 @@ public class PeopleDAO {
         
         List<video> topComedians = new ArrayList<video>();
         
-        String sql = "select distinct t1.comedian \r\n" + 
-        			 "from testdb.video t1\r\n" + 
-        			 "group by comedian \r\n" + 
-        			 "order by count(comedian) desc \r\n" + 
-        			 "limit 1";
+        String sql = "select comedian, count(comedian) as count\r\n" + 
+        			 "from (\r\n" + 
+        			 "	select comedian, count(comedian), RANK() over (order by count(comedian) desc) as rk\r\n" + 
+        			 "    from testdb.video\r\n" + 
+        			 "    group by comedian\r\n" + 
+        			 "    ) t\r\n" + 
+        			 "where rk = 1\r\n" + 
+        			 "group by comedian";
 	        		
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
@@ -848,7 +859,7 @@ public class PeopleDAO {
         String sql = "select distinct tags \r\n" + 
         			 "from testdb.video \r\n" + 
         			 "group by tags\r\n" + 
-        			 "having count(distinct email) = (select count(distinct email) - 1 from testdb.users)";
+        			 "having count(distinct email) >= (select count(distinct email) - 1 from testdb.users)";
 	        		
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
@@ -873,10 +884,14 @@ public class PeopleDAO {
         
         List<video> productiveUser = new ArrayList<video>();
         
-        String sql = "select distinct email, count(email) as freq from testdb.video\r\n" + 
-        			 "group by email\r\n" + 
-        			 "order by freq desc\r\n" + 
-        			 "limit 1 ";
+        String sql = "select email, count(email) as count\r\n" + 
+        			 "from (\r\n" + 
+        			 "	select email, count(email), RANK() over (order by count(email) desc) as rk\r\n" + 
+        			 "    from testdb.video\r\n" + 
+        			 "    group by email\r\n" + 
+        			 "    ) t\r\n" + 
+        			 "where rk = 1\r\n" + 
+        			 "group by email";
 	        		
         
         preparedStatement = (PreparedStatement) connect.prepareStatement(sql);

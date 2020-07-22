@@ -286,7 +286,7 @@ public class ControlServlet extends HttpServlet {
 	    	RequestDispatcher dispatcher = req.getRequestDispatcher("sortresults.jsp");
 	    	req.setAttribute("list", popTags);
 	    	req.setAttribute("descriptor", "Popular Tags");
-	    	req.setAttribute("descriptor2", "Sorting by the most used tags on the site!");
+	    	req.setAttribute("descriptor2", "Sorting by the tags used by every user on the site!");
 	    	req.setAttribute("buttonlabel", "Videos");
 	    	dispatcher.forward(req, resp);
 	    	

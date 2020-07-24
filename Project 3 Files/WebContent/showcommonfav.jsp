@@ -32,6 +32,18 @@ input {
 	border-radius: 15px;
 	padding: 2px;
 }
+#submitbtnback {
+	display: inline-block;
+	 width: 100px;
+	height: auto;
+	font-size: 20px;
+	font-weight: bold;
+	color: #99ccff;
+	background-color: #806000;
+	border: 5px solid #07594D;
+	border-radius: 15px;
+	padding: 2px;
+	}
 h1 {
 	color: #99ccff;
 	margin-block-start: 5px;
@@ -52,6 +64,11 @@ body {
 	text-align: center;
 }
 </style>
+<script>
+function goBack() {
+	window.history.go(-1);
+}
+</script>
 <meta charset="ISO-8859-1">
 <title>Find ${descriptor}!</title>
 
@@ -77,5 +94,5 @@ body {
      </table>
      
      <br><br>
-     <a href="javascript:history.back()">Go Back</a>
+    <button id="submitbtnback" onclick="goBack()">Go Back</button>
 </body>

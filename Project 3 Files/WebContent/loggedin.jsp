@@ -30,10 +30,27 @@ input {
 	border-radius: 15px;
 	padding: 2px;
 }
+#searchSubmitBtn {
+	float: right;
+	padding: 6px;
+	margin-top:8px;
+	margin-right: 16px;
+	background-color: #80600;
+	font-size: 20px;
+	border: 5px solid #07594D;
+	cursor: pointer;
+
+}
 h1 {
 	color: #99ccff;
 	margin-block-start: 5px;
 	margin-block-end: 5px;
+}
+h2 {
+	color: #99ccff;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+	
 }
 prompts {
 	color: #99ccff;
@@ -64,19 +81,21 @@ body {
 	</form>
 	
 	<br>
+	<form action="showfavorites" method="post">
+		<input type="submit" id="submitbtn" value="Go to Favorites">
+	</form>
 	<br>
-	<p>Search:</p>
-	
+	<h2><center>Looking for a video?</center></h2>
+	<div class="searchSubmitBtn">
 	<form action="search" method="post">
-		<input type="text" name="params">
+		<input type="text" name="params" placeholder="Search...">
+		<br>
 		<input type="submit" id="submitbtn" value="Submit">
 	</form>
-	
+	</div>
 	<br><br>
 	
-	<form action="showfavorites" method="post">
-		<input type="submit" id="submitbtn" value="Go to favorites">
-	</form>
+	
 	
 </body>
 </html>

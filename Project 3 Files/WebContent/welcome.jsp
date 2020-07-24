@@ -30,10 +30,27 @@ input {
 	border-radius: 15px;
 	padding: 2px;
 }
+#searchSubmitBtn {
+	float: right;
+	padding: 6px;
+	margin-top:8px;
+	margin-right: 16px;
+	background-color: #80600;
+	font-size: 20px;
+	border: 5px solid #07594D;
+	cursor: pointer;
+
+}
 h1 {
 	color: #99ccff;
 	margin-block-start: 5px;
 	margin-block-end: 5px;
+}
+h2 {
+	color: #99ccff;
+	margin-block-start: 5px;
+	margin-block-end: 5px;
+	
 }
 prompts {
 	color: #99ccff;
@@ -56,16 +73,13 @@ body {
 </head>
 
 <body>
-	<h1>Logged in as Root!</h1>
-	<br>
-	<br>
+	<h1>Root User Functions:</h1>
+
 	
 	<!-- init database button for root user -->
 	<form method='post' action='drop'>
 		<input type='submit' id="submitbtn" value='Initialize Database'>
 	</form>
-	
-	<br><br>
 	
 	<!-- sorting comedians button for root user -->
 	<form action="showcomedians" method="post">
@@ -77,24 +91,23 @@ body {
 	<form method="post" action="gotoinsert">
 		<input type="submit" id="submitbtn" value="Insert Video">
 	</form>
-	
-	<br>
-	<br>
-	<p>Search:</p>
-	
-	<form action="search" method="post">
-		<input type="text" name="params">
-		<input type="submit" id="submitbtn" value="Submit">
-	</form>
-	
-	<br><br>
-	
-	<form action="showfavorites" method="post">
+		<form action="showfavorites" method="post">
 		<input type="submit" id="submitbtn" value="Go to favorites">
 	</form>
 	
+	<br>
+	<br>
+	<h2><center>Looking for a video?</center></h2>
+	<div class="searchSubmitBtn">
+	<form action="search" method="post">
+		<input type="text" name="params" placeholder="Search...">
+		<br>
+		<input type="submit" id="submitbtn" value="Submit">
+	</form>
+	</div>
 	<br><br>
 	
-	
+	<br><br>
+	<br><br>
+
 </body>
-	

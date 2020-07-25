@@ -34,6 +34,30 @@ input {
 	border-radius: 15px;
 	padding: 2px;
 }
+#submitbtnback {
+	display: inline-block;
+	 width: 100px;
+	height: auto;
+	font-size: 20px;
+	font-weight: bold;
+	color: #99ccff;
+	background-color: #806000;
+	border: 5px solid #07594D;
+	border-radius: 15px;
+	padding: 2px;
+}
+	#submitbtnfavandcom {
+	display: inline-block;
+	 width: 85px;
+	height: auto;
+	font-size: 15px;
+	font-weight: bold;
+	color: #99ccff;
+	background-color: #806000;
+	border: 5px solid #07594D;
+	border-radius: 15px;
+	padding: 2px;
+}
 h1 {
 	color: #99ccff;
 	margin-block-start: 5px;
@@ -55,6 +79,11 @@ body {
 	text-align: center;
 }
 </style>
+<script>
+function goBack() {
+	window.history.go(-1);
+}
+</script>
 <meta "charset=UTF-8">
         <title>Search Results</title>
     </head>
@@ -65,7 +94,7 @@ body {
                   
      <div align="center">
         <table border="1" cellpadding="5">
-            <caption><h1>List of People</h1></caption>
+            <caption><h1>List of Videos</h1></caption>
             <tr>
                 
                 <th>URL</th>
@@ -84,7 +113,7 @@ body {
 	                    <form action="favorite" method="post">
 	                    	<input type="hidden" name="URL" value="${video.URL}" >
 	                    	<input type="hidden" name="comedian" value="${video.comedian}">
-	                    	<input type="submit" id="submitbtn" value="Favorite">
+	                    	<input type="submit" id="submitbtnfavandcom" value="Favorite">
 	                 	</form>  
                     </td>
                     
@@ -92,7 +121,7 @@ body {
 	                    <form action="comment" method="post">
 	                    	<input type="hidden" name="URL" value="${video.URL}" >
 	                    	<input type="hidden"  name="comedian" value="${video.comedian}">
-	                    	<input type="submit" id="submitbtn" value="Comment">
+	                    	<input type="submit" id="submitbtnfavandcom" value="Comment">
 	                    </form>
                    </td>
                    
@@ -102,12 +131,8 @@ body {
         </table>
         <br>
         <br>
-        <a href="javascript:history.back()">Go Back</a>
+       <button id="submitbtnback" onclick="goBack()">Go Back</button>
     </div>
      
 	</body>
 </html>
-     
-     
-     
-      

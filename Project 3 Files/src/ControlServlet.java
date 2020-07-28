@@ -625,6 +625,10 @@ public class ControlServlet extends HttpServlet {
     			dispatcher.forward(req, resp);
         	
         	}
+        	else {
+        		RequestDispatcher dispatcher = req.getRequestDispatcher("loggedin.jsp");
+        		dispatcher.forward(req, resp);
+        	}
     	}
     	
     	else {

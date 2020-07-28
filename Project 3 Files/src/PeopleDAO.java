@@ -322,7 +322,7 @@ public class PeopleDAO {
 	    			"('https://www.youtube.com/watch?v=t2fgzC8jqp8', '33 Minutes of JOHN MULANEY', 'John Mulaney comedy','funny',  'TedJ2@gmail.com', curdate(),'John Mulaney')," +
 	    			"('https://www.youtube.com/watch?v=H6dmAEkapGg', 'Eddie Murphy - Standup', 'Funny stuff', 'Funny', 'RickJ@gmail.com', curdate(), 'Eddie Murphy'\r\n) ," + 
 	    			"('https://www.youtube.com/watch?v=quZU_hA4Pr4', 'John Mulaney: “Canceling Plans Is Like Heroin”', 'John Mulaney bit',	'funny',  'SallyT@gmail.com', curdate(),'John Mulaney')," +
-	    			"('https://www.youtube.com/watch?v=Hy-sVByUHqE', 'The Best of George Carlin', 'George Carlin all time','george carlin funny', 'TedJ2@gmail.com', curdate(),'Bill Burr'),"
+	    			"('https://www.youtube.com/watch?v=Hy-sVByUHqE', 'The Best of George Carlin', 'George Carlin all time','george carlin funny', 'TedJ2@gmail.com', curdate(),'George Carlin'),"
 	    			+ "('https://www.youtube.com/watch?v=Vn6MHmDo_Ck', 'Bill Burr - Breaking bad | Full standup special', 'Bill Burr','funny', 'Johncon97@gmail.com', curdate(),'Bill Burr'),"
 	    			+ "('https://www.youtube.com/watch?v=8f-4etve2t0', 'Bill Burr Most Funny Standup Jokes Savage Moments', 'Bill burr', 'funny', 'JackLi@gmail.com', curdate(),'Bill Burr'),"
 	    			+ "('https://www.youtube.com/watch?v=FA4kxlObK9Q', 'Jerry Seinfeld Compares Married Men To Game Show Losers', 'Jerry sienfeld','funny', 'JerrysTe@gmail.com', curdate(),'Jerry Seinfeld'),"
@@ -433,13 +433,14 @@ public class PeopleDAO {
     	createVideoTable();
     	
     	String fullParams = "%"+params+"%";
-    	String sql = "SELECT * FROM video WHERE url like ? OR title like ? OR description like ? OR tags like ?";
+    	String sql = "SELECT * FROM video WHERE url like ? OR title like ? OR description like ? OR tags like ? OR comedian like ?";
     	
     	preparedStatement = (PreparedStatement) connect.prepareStatement(sql);
     	preparedStatement.setString(1, fullParams);
     	preparedStatement.setString(2, fullParams);
     	preparedStatement.setString(3, fullParams);
     	preparedStatement.setString(4, fullParams);
+    	preparedStatement.setString(5, fullParams);
     	
     	ResultSet resultSet = preparedStatement.executeQuery();
     	
@@ -611,6 +612,17 @@ public class PeopleDAO {
         createVideoTable();
         connect_func();
         
+        String sql1 = "select url from testdb.video where email = ? and url = ?";
+        
+        preparedStatement = (PreparedStatement) connect.prepareStatement(sql1);	
+        preparedStatement.setString(1, username);
+        preparedStatement.setString(2, URL);
+        ResultSet resultSet0 = preparedStatement.executeQuery();
+        
+        while(resultSet0.next()) {
+        	System.out.println("User cannot comment on their own video");
+        	return false;
+        }
         
         String sql = "INSERT INTO review (comment, rating, URL, email, comedian) VALUES (?,?,?,?,?)";
 		preparedStatement = (PreparedStatement) connect.prepareStatement(sql);

@@ -94,12 +94,18 @@ body {
 		<br><br>
 	
 		<table align="center" border="1" cellpadding="5">
-		
+		  <tr>
+                
+                <th>User</th>
+                <th>Rating</th>
+                <th>Comment</th>
+               
+            </tr>
 			<c:forEach var="review" items="${listComments}">
 		                <tr>
-		                    <td><u>User:</u><c:out value="${review.email}"/></td>
-		                    <td><u>Rating:</u><c:out value="${review.rating}"/></td>
-		                    <td><u>Comment:</u><c:out value="${review.comment}"/></td>
+		                    <td><c:out value="${review.email}"/></td>
+		                    <td><c:out value="${review.rating}"/></td>
+		                     <td><c:out value="${review.comment}"/></td>
 		                       
 		                </tr>
 		    </c:forEach>
